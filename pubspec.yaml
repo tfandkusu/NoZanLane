@@ -39,7 +39,7 @@ dependencies:
   hooks_riverpod: ^3.0.3
   intl: ^0.20.2
   riverpod_annotation: ^4.0.2
-  widgetbook: ^3.16.0
+  widgetbook: ^3.21.0
   widgetbook_annotation: ^3.10.0
 
 dev_dependencies:
@@ -49,7 +49,7 @@ dev_dependencies:
   freezed: ^3.2.3
   riverpod_generator: ^4.0.3
   very_good_analysis: ^10.1.0
-  widgetbook_generator: ^3.13.0
+  widgetbook_generator: ^3.21.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
