@@ -4,7 +4,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:no_zan_lane/features/counter/application/counter_message_provider.dart';
 import 'package:no_zan_lane/l10n/app_localizations.dart';
 
+/// Counter screen implemented with hooks and riverpod.
 class CounterPage extends HookConsumerWidget {
+  /// Creates a [CounterPage].
   const CounterPage({super.key});
 
   @override

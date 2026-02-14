@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:no_zan_lane/app/router.dart';
 import 'package:no_zan_lane/l10n/app_localizations.dart';
 
+/// Application root widget.
 class App extends StatelessWidget {
+  /// Creates an [App].
   const App({super.key});
 
   @override
