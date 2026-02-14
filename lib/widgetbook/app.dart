@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:no_zan_lane/app/app_theme.dart';
 import 'package:no_zan_lane/widgetbook/app.directories.g.dart';
 import 'package:widgetbook/widgetbook.dart';
 import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
@@ -11,17 +12,9 @@ class WidgetbookApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final darkTheme = ThemeData(
-      useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.teal,
-        brightness: Brightness.dark,
-      ),
-    );
-
     return Widgetbook.material(
-      lightTheme: darkTheme,
-      darkTheme: darkTheme,
+      lightTheme: appDarkTheme,
+      darkTheme: appDarkTheme,
       themeMode: ThemeMode.dark,
       directories: directories,
     );
