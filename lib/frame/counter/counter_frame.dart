@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:no_zan_lane/component/ds_app_bar.dart';
 import 'package:no_zan_lane/frame/counter/counter_ui_model.dart';
 import 'package:no_zan_lane/l10n/app_localizations.dart';
 
@@ -15,7 +16,7 @@ class CounterFrame extends HookConsumerWidget {
     final uiModel = useState(const CounterUiModel(count: 0));
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.counterPageTitle)),
+      appBar: DSAppBar(titleText: l10n.counterPageTitle),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
