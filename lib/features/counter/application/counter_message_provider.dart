@@ -3,7 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'counter_message_provider.g.dart';
 
-/// Provides a localized message model for the counter screen.
+/// カウンター画面で利用するメッセージモデルを提供します。
 @riverpod
 CounterMessage counterMessage(Ref ref) {
   return const CounterMessage(description: 'counterDescription');

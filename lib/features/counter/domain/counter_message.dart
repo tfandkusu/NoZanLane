@@ -2,10 +2,10 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'counter_message.freezed.dart';
 
-/// Domain model for text shown on the counter page.
+/// カウンター画面に表示する文言のドメインモデルです。
 @freezed
 abstract class CounterMessage with _$CounterMessage {
-  /// Creates a [CounterMessage].
+  /// [CounterMessage] を生成します。
   const factory CounterMessage({
     required String description,
   }) = _CounterMessage;
