@@ -10,12 +10,12 @@ part of 'counter_message_provider.dart';
 // ignore_for_file: type=lint, type=warning
 
 @ProviderFor(counterMessage)
-const counterMessageProvider = CounterMessageProvider._();
+final counterMessageProvider = CounterMessageProvider._();
 
 final class CounterMessageProvider
     extends $FunctionalProvider<CounterMessage, CounterMessage, CounterMessage>
     with $Provider<CounterMessage> {
-  const CounterMessageProvider._()
+  CounterMessageProvider._()
     : super(
         from: null,
         argument: null,

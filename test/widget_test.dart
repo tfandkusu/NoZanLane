@@ -3,7 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:no_zan_lane/app/app.dart';
 
 void main() {
-  testWidgets('Counter increments with useState', (WidgetTester tester) async {
+  testWidgets('Counter increments with useState', (tester) async {
     await tester.pumpWidget(const ProviderScope(child: App()));
     await tester.pumpAndSettle();
 
