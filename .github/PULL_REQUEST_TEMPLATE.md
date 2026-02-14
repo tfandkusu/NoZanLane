@@ -1,4 +1,4 @@
-close Issue 番号
+close #1 ← Issue 番号を入力
 
 # 概要
 
