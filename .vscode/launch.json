@@ -11,6 +11,17 @@
         "-d",
         "macos"
       ]
+    },
+    {
+      "name": "Flutter (Widgetbook macOS)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/widgetbook/main.dart",
+      "cwd": "${workspaceFolder}",
+      "toolArgs": [
+        "-d",
+        "macos"
+      ]
     }
   ]
 }
