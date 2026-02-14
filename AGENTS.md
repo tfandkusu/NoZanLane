@@ -9,7 +9,7 @@
   - `fvm flutter pub run build_runner build --delete-conflicting-outputs`
 - 解析・テスト:
   - `fvm dart format lib test`
-  - `fvm flutter analyze`
+  - `fvm dart analyze`
   - `fvm flutter test`
 - CI は PR ごとに `format` と `analyze` を実行。
 
