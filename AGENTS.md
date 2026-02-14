@@ -9,7 +9,7 @@
   - `fvm flutter pub run build_runner build --delete-conflicting-outputs`
 - 解析・テスト:
   - `fvm dart format lib test`
-  - `fvm dart analyze`
+  - `fvm flutter analyze`
   - `fvm flutter test`
 - CI は PR ごとに `format` と `analyze` を実行。
 
@@ -21,5 +21,6 @@
 - モデルは `freezed` で定義し、`build_runner` で生成する。
 - 文字列はハードコードせず、ARB（`lib/l10n/*.arb`）経由で管理する。
 - テーマは Material 3 のダークテーマ固定（`ThemeMode.dark`）。
+- コメントとコミットメッセージは日本語でお願いします。
 
 ## テスト方針
