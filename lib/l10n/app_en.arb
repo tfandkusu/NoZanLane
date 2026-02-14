@@ -1,0 +1,7 @@
+{
+  "@@locale": "en",
+  "appTitle": "NoZanLane",
+  "counterPageTitle": "Counter",
+  "counterDescription": "You have pushed the button this many times:",
+  "incrementButtonTooltip": "Increment"
+}

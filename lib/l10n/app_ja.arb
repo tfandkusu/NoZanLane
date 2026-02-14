@@ -1,0 +1,7 @@
+{
+  "@@locale": "ja",
+  "appTitle": "NoZanLane",
+  "counterPageTitle": "カウンター",
+  "counterDescription": "ボタンを押した回数です:",
+  "incrementButtonTooltip": "増やす"
+}
