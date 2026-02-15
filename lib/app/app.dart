@@ -13,9 +13,9 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
       routerConfig: router,
-      theme: appDarkTheme,
+      theme: appLightTheme,
       darkTheme: appDarkTheme,
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
     );
