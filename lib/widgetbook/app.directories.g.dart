@@ -26,7 +26,7 @@ final directories = <_widgetbook.WidgetbookNode>[
           _widgetbook.WidgetbookUseCase(
             name: 'Default',
             builder: _no_zan_lane_widgetbook_component_ds_app_bar_use_case
-                .dsAppBarDefaultUseCase,
+                .dsAppBarUseCase,
           ),
         ],
       ),
@@ -37,7 +37,7 @@ final directories = <_widgetbook.WidgetbookNode>[
             name: 'Default',
             builder:
                 _no_zan_lane_widgetbook_component_ds_campaign_banner_use_case
-                    .dsCampaignBannerDefaultUseCase,
+                    .dsCampaignBannerUseCase,
           ),
         ],
       ),

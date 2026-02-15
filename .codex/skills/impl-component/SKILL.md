@@ -30,6 +30,7 @@ description: 共通コンポーネントを実装するスキルです。
 # Widgetbook 登録
 
 - 共通コンポーネントを追加したら Widgetbook にも登録する
+- UseCase メソッドの命名は「コンポーネント名のキャメルケース + UseCase」とする
 
 # Figma URL がある場合
 

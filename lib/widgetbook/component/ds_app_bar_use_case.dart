@@ -7,7 +7,7 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
   type: DSAppBar,
 )
 /// [DSAppBar] のデフォルトユースケースです。
-Widget dsAppBarDefaultUseCase(BuildContext context) {
+Widget dsAppBarUseCase(BuildContext context) {
   return const Scaffold(
     appBar: DSAppBar(titleText: 'Widgetbook DSAppBar'),
     body: SizedBox.shrink(),
