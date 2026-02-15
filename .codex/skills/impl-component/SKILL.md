@@ -30,3 +30,8 @@ description: 共通コンポーネントを実装するスキルです。
 # Widgetbook 登録
 
 - 共通コンポーネントを追加したら Widgetbook にも登録する
+
+# Figma URL がある場合
+
+- Figma URL が指定されていたら Figma MCP を使い、指定の Component を実装する
+- コンポーネント名は Figma のコンポーネント名と同じにする
