@@ -11,6 +11,9 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 Widget dsCampaignBannerUseCase(BuildContext context) {
   return const Scaffold(
     appBar: DSAppBar(titleText: 'DSCampaignBanner'),
-    body: DSCampaignBanner(text: 'キャンペーンテキスト'),
+    body: DSCampaignBanner(
+      primaryText: '期間限定ボーナス開催中',
+      secondaryText: 'ログインでガチャチケット配布中',
+    ),
   );
 }
