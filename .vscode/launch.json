@@ -22,6 +22,17 @@
         "-d",
         "macos"
       ]
+    },
+    {
+      "name": "Flutter (Android)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "cwd": "${workspaceFolder}",
+      "toolArgs": [
+        "-d",
+        "android"
+      ]
     }
   ]
 }
