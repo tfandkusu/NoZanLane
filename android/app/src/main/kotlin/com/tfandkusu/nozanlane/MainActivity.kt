@@ -1,4 +1,4 @@
-package com.example.nozanlane
+package com.tfandkusu.nozanlane
 
 import io.flutter.embedding.android.FlutterActivity
 
