@@ -1,4 +1,4 @@
-package com.example.no_zan_lane
+package com.example.nozanlane
 
 import io.flutter.embedding.android.FlutterActivity
 
