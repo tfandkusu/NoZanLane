@@ -5,5 +5,5 @@ import 'package:widgetbook_annotation/widgetbook_annotation.dart' as widgetbook;
 @widgetbook.UseCase(name: 'Default', type: MemberProfileFrame)
 /// [MemberProfileFrame] のデフォルトユースケースです。
 Widget memberProfileFrameUseCase(BuildContext context) {
-  return const MaterialApp(home: MemberProfileFrame());
+  return const MemberProfileFrame();
 }
