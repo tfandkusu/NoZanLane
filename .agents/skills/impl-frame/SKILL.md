@@ -19,6 +19,11 @@ description: 画面を実装するときに使います。
 
 # Riverpod の使い方はまだ未定義
 
+# Frame の作り方
+
+- できるだけ `ListView` を使って実装してください。
+- 行数が可変のコンテンツ Frame は `ListView.builder` を使い、表示されている Widget だけ生成するようにしてください。
+
 # Widgetbook 登録
 
 - Frame を追加したら Widgetbook にも登録する
