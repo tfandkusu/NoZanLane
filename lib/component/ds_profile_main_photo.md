@@ -16,11 +16,10 @@
 
 - `imageUrl` (`String`, 必須):
   インターネット上の画像 URL。
-- `backgroundColor` (`Color`, 任意, デフォルト: `Colors.white`):
-  画像背面の背景色。
 
 ## 表示仕様
 
+- 背景: 透明
 - 横幅: `double.infinity`（親要素の横幅いっぱい）
 - 縦横比: `AspectRatio(aspectRatio: 1)` で正方形固定
 - 画像表示: `Image.network` + `BoxFit.cover`
