@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 class DSProfileMainPhoto extends StatelessWidget {
   /// [DSProfileMainPhoto] を生成します。
   const DSProfileMainPhoto({
-    required this.imageProvider,
+    required this.imageUrl,
     super.key,
     this.backgroundColor = Colors.white,
   });
 
-  /// 表示する写真データです。
-  final ImageProvider<Object> imageProvider;
+  /// 表示する写真の URL です。
+  final String imageUrl;
 
   /// 写真の背面に敷く背景色です。
   final Color backgroundColor;
@@ -23,8 +23,8 @@ class DSProfileMainPhoto extends StatelessWidget {
         width: double.infinity,
         child: AspectRatio(
           aspectRatio: 1,
-          child: Image(
-            image: imageProvider,
+          child: Image.network(
+            imageUrl,
             fit: BoxFit.cover,
             errorBuilder: (context, error, stackTrace) =>
                 const SizedBox.expand(),
