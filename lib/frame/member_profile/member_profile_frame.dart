@@ -18,7 +18,6 @@ class MemberProfileFrame extends HookConsumerWidget {
     final uiModel = ref.watch(memberProfileUiModelProvider);
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
       body: ListView(
         children: [
           const DSProfileMainPhoto(),

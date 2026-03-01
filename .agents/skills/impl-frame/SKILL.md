@@ -39,6 +39,10 @@ description: 画面を実装するときに使います。
 - Figma URL が指定されていたら Figma MCP を使い、指定の Frame を実装する
 - 画面クラス名は Figma の Frame 名と同じにする
 
+## 画面の背景色
+
+- Scaffold の backgroundColor は、設定しないでください。
+
 ## Edge-to-edge 対応
 
 - Figma 上のステータスバーとナビゲーションバーの重なりを考慮して実装してください。
