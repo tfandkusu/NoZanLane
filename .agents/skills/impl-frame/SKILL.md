@@ -21,6 +21,7 @@ description: 画面を実装するときに使います。
 
 - 画面の状態は、`画面名UiModel` クラスで定義してください。
 - `画面名UiModel` クラスは freezed で定義し、build_runner で生成してください。
+- `画面名UiModel` の各フィールドには、意味が分かるコメントを付与してください。
 
 # Riverpod の使い方はまだ未定義
 
@@ -32,6 +33,7 @@ description: 画面を実装するときに使います。
 ## 画面状態
 
 - 画面状態は Riverpod の override を使うことで、Widgetbook 用に固定の画面状態を提供してください。
+- ただし、画面状態が完全固定でユーザー操作による状態変化がない場合は、override を使わずに通常 Provider の値をそのまま利用してください。
 
 # Figma URL がある場合
 
@@ -41,3 +43,5 @@ description: 画面を実装するときに使います。
 ## Edge-to-edge 対応
 
 - Figma 上のステータスバーとナビゲーションバーの重なりを考慮して実装してください。
+- 余白調整は `MediaQuery` の直接計算より、`SafeArea` を優先して利用してください。
+- `ListView` の場合は、最終要素に `SafeArea(top: false)` を配置する方法を優先してください。

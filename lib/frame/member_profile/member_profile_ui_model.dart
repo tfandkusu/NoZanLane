@@ -7,6 +7,7 @@ part 'member_profile_ui_model.freezed.dart';
 abstract class MemberProfileUiModel with _$MemberProfileUiModel {
   /// [MemberProfileUiModel] を生成します。
   const factory MemberProfileUiModel({
+    /// 自己紹介文として表示する本文です。
     required String introductionText,
   }) = _MemberProfileUiModel;
 }
