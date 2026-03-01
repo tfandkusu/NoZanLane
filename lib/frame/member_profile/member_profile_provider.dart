@@ -19,8 +19,7 @@ const _introductionText = '''
 一緒に美味しいものを食べたり、何気ない日常を楽しめるような方と出会えたら嬉しいです。
 
 まずはメッセージから、ゆっくりお話できたらと思います。
-どうぞよろしくお願いします🌷
-''';
+どうぞよろしくお願いします🌷''';
 
 /// MemberProfile 画面の固定状態を提供します。
 final memberProfileUiModelProvider = Provider<MemberProfileUiModel>(
