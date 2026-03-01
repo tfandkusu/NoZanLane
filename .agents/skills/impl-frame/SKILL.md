@@ -33,7 +33,6 @@ description: 画面を実装するときに使います。
 ## 画面状態
 
 - 画面状態は Riverpod の override を使うことで、Widgetbook 用に固定の画面状態を提供してください。
-- ただし、画面状態が完全固定でユーザー操作による状態変化がない場合は、override を使わずに通常 Provider の値をそのまま利用してください。
 
 # Figma URL がある場合
 
