@@ -19,6 +19,7 @@ class MemberProfileFrame extends HookConsumerWidget {
 
     return Scaffold(
       body: ListView(
+        padding: EdgeInsets.zero,
         children: [
           const DSProfileMainPhoto(),
           const DSDivider(),
