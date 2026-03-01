@@ -16,17 +16,14 @@ class DSBodyText extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return ColoredBox(
-      color: colorScheme.surface,
-      child: SizedBox(
-        width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-          child: Text(
-            text,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: colorScheme.onSurface,
-            ),
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+        child: Text(
+          text,
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: colorScheme.onSurface,
           ),
         ),
       ),
