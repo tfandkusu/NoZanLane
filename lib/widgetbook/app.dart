@@ -18,7 +18,12 @@ class WidgetbookApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       directories: directories,
       addons: [
-        ViewportAddon(Viewports.all),
+        ViewportAddon([
+          IosViewports.iPhone12Mini,
+          ...Viewports.all.where(
+            (viewport) => viewport != IosViewports.iPhone12Mini,
+          ),
+        ]),
       ],
     );
   }
