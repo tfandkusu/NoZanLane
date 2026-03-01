@@ -19,6 +19,7 @@ class MemberProfileFrame extends HookConsumerWidget {
 
     return Scaffold(
       body: ListView(
+        // ListView の自動 SafeArea padding を無効化し、画面最上部から描画する。
         padding: EdgeInsets.zero,
         children: [
           const DSProfileMainPhoto(),
