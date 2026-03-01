@@ -14,6 +14,8 @@ import 'package:no_zan_lane/widgetbook/component/ds_app_bar_use_case.dart'
     as _no_zan_lane_widgetbook_component_ds_app_bar_use_case;
 import 'package:no_zan_lane/widgetbook/component/ds_campaign_banner_use_case.dart'
     as _no_zan_lane_widgetbook_component_ds_campaign_banner_use_case;
+import 'package:no_zan_lane/widgetbook/component/ds_profile_main_photo_use_case.dart'
+    as _no_zan_lane_widgetbook_component_ds_profile_main_photo_use_case;
 import 'package:widgetbook/widgetbook.dart' as _widgetbook;
 
 final directories = <_widgetbook.WidgetbookNode>[
@@ -38,6 +40,17 @@ final directories = <_widgetbook.WidgetbookNode>[
             builder:
                 _no_zan_lane_widgetbook_component_ds_campaign_banner_use_case
                     .dsCampaignBannerUseCase,
+          ),
+        ],
+      ),
+      _widgetbook.WidgetbookComponent(
+        name: 'DSProfileMainPhoto',
+        useCases: [
+          _widgetbook.WidgetbookUseCase(
+            name: 'Default',
+            builder:
+                _no_zan_lane_widgetbook_component_ds_profile_main_photo_use_case
+                    .dsProfileMainPhotoUseCase,
           ),
         ],
       ),
