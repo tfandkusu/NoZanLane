@@ -14,18 +14,17 @@
 
 ## コンストラクタ引数
 
-- `imageUrl` (`String`, 必須):
-  インターネット上の画像 URL。
+- なし
 
 ## 表示仕様
 
 - 背景: 透明
 - 横幅: `double.infinity`（親要素の横幅いっぱい）
 - 縦横比: `AspectRatio(aspectRatio: 1)` で正方形固定
-- 画像表示: `Image.network` + `BoxFit.cover`
+- 画像表示: `Image.asset('assets/images/ds_profile_main_photo.jpg')` + `BoxFit.cover`
 - 画像取得失敗時: `SizedBox.expand()` を表示
 
 ## Widgetbook UseCase
 
 - ファイル: `lib/widgetbook/component/ds_profile_main_photo_use_case.dart`
-- 指定 URL を `imageUrl` に渡して表示確認を行う。
+- 引数なしで固定アセット画像を表示確認する。
