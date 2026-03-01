@@ -6,31 +6,45 @@ class DSProfileMainPhoto extends StatelessWidget {
   const DSProfileMainPhoto({
     required this.imageProvider,
     super.key,
-    this.size = 320,
+    this.width = 320,
+    this.height = 320,
     this.backgroundColor = Colors.white,
   });
 
   /// 表示する写真データです。
   final ImageProvider<Object> imageProvider;
 
-  /// 写真表示領域の一辺サイズです。
-  final double size;
+  /// 写真表示領域の横幅です。
+  final double width;
+
+  /// 写真表示領域の高さです。
+  final double height;
 
   /// 写真の背面に敷く背景色です。
   final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: backgroundColor,
-      child: SizedBox.square(
-        dimension: size,
-        child: Image(
-          image: imageProvider,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) => const SizedBox.expand(),
-        ),
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final resolvedWidth = width == 320 && constraints.hasBoundedWidth
+            ? constraints.maxWidth
+            : width;
+
+        return ColoredBox(
+          color: backgroundColor,
+          child: SizedBox(
+            width: resolvedWidth,
+            height: height,
+            child: Image(
+              image: imageProvider,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) =>
+                  const SizedBox.expand(),
+            ),
+          ),
+        );
+      },
     );
   }
 }
