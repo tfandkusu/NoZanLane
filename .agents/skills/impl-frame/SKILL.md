@@ -12,6 +12,11 @@ description: 画面を実装するときに使います。
 - クラス名は `画面名Frame` にしてください。
 - HookConsumerWidget を継承してください。
 
+## ListView の活用
+
+- できるだけ `ListView` を使って実装してください。
+- 行数が可変のコンテンツ Frame は `ListView.builder` を使い、表示されている Widget だけ生成するようにしてください。
+
 # 画面の状態
 
 - 画面の状態は、`画面名UiModel` クラスで定義してください。
