@@ -17,6 +17,9 @@ class WidgetbookApp extends StatelessWidget {
       darkTheme: appDarkTheme,
       themeMode: ThemeMode.light,
       directories: directories,
+      addons: [
+        ViewportAddon(Viewports.all),
+      ],
     );
   }
 }
