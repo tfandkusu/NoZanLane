@@ -22,6 +22,8 @@ import 'package:no_zan_lane/widgetbook/component/ds_profile_main_photo_use_case.
     as _no_zan_lane_widgetbook_component_ds_profile_main_photo_use_case;
 import 'package:no_zan_lane/widgetbook/component/ds_subtitle_use_case.dart'
     as _no_zan_lane_widgetbook_component_ds_subtitle_use_case;
+import 'package:no_zan_lane/widgetbook/frame/member_profile/member_profile_frame_use_case.dart'
+    as _no_zan_lane_widgetbook_frame_member_profile_member_profile_frame_use_case;
 import 'package:widgetbook/widgetbook.dart' as _widgetbook;
 
 final directories = <_widgetbook.WidgetbookNode>[
@@ -87,6 +89,27 @@ final directories = <_widgetbook.WidgetbookNode>[
             name: 'Default',
             builder: _no_zan_lane_widgetbook_component_ds_subtitle_use_case
                 .dsSubtitleUseCase,
+          ),
+        ],
+      ),
+    ],
+  ),
+  _widgetbook.WidgetbookFolder(
+    name: 'frame',
+    children: [
+      _widgetbook.WidgetbookFolder(
+        name: 'member_profile',
+        children: [
+          _widgetbook.WidgetbookComponent(
+            name: 'MemberProfileFrame',
+            useCases: [
+              _widgetbook.WidgetbookUseCase(
+                name: 'Default',
+                builder:
+                    _no_zan_lane_widgetbook_frame_member_profile_member_profile_frame_use_case
+                        .memberProfileFrameUseCase,
+              ),
+            ],
           ),
         ],
       ),

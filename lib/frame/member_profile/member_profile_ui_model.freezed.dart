@@ -1,0 +1,271 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'member_profile_ui_model.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+// dart format off
+T _$identity<T>(T value) => value;
+/// @nodoc
+mixin _$MemberProfileUiModel {
+
+ String get introductionText;
+/// Create a copy of MemberProfileUiModel
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$MemberProfileUiModelCopyWith<MemberProfileUiModel> get copyWith => _$MemberProfileUiModelCopyWithImpl<MemberProfileUiModel>(this as MemberProfileUiModel, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MemberProfileUiModel&&(identical(other.introductionText, introductionText) || other.introductionText == introductionText));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,introductionText);
+
+@override
+String toString() {
+  return 'MemberProfileUiModel(introductionText: $introductionText)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $MemberProfileUiModelCopyWith<$Res>  {
+  factory $MemberProfileUiModelCopyWith(MemberProfileUiModel value, $Res Function(MemberProfileUiModel) _then) = _$MemberProfileUiModelCopyWithImpl;
+@useResult
+$Res call({
+ String introductionText
+});
+
+
+
+
+}
+/// @nodoc
+class _$MemberProfileUiModelCopyWithImpl<$Res>
+    implements $MemberProfileUiModelCopyWith<$Res> {
+  _$MemberProfileUiModelCopyWithImpl(this._self, this._then);
+
+  final MemberProfileUiModel _self;
+  final $Res Function(MemberProfileUiModel) _then;
+
+/// Create a copy of MemberProfileUiModel
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? introductionText = null,}) {
+  return _then(_self.copyWith(
+introductionText: null == introductionText ? _self.introductionText : introductionText // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [MemberProfileUiModel].
+extension MemberProfileUiModelPatterns on MemberProfileUiModel {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _MemberProfileUiModel value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _MemberProfileUiModel() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _MemberProfileUiModel value)  $default,){
+final _that = this;
+switch (_that) {
+case _MemberProfileUiModel():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _MemberProfileUiModel value)?  $default,){
+final _that = this;
+switch (_that) {
+case _MemberProfileUiModel() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String introductionText)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _MemberProfileUiModel() when $default != null:
+return $default(_that.introductionText);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String introductionText)  $default,) {final _that = this;
+switch (_that) {
+case _MemberProfileUiModel():
+return $default(_that.introductionText);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String introductionText)?  $default,) {final _that = this;
+switch (_that) {
+case _MemberProfileUiModel() when $default != null:
+return $default(_that.introductionText);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+
+
+class _MemberProfileUiModel implements MemberProfileUiModel {
+  const _MemberProfileUiModel({required this.introductionText});
+  
+
+@override final  String introductionText;
+
+/// Create a copy of MemberProfileUiModel
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$MemberProfileUiModelCopyWith<_MemberProfileUiModel> get copyWith => __$MemberProfileUiModelCopyWithImpl<_MemberProfileUiModel>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MemberProfileUiModel&&(identical(other.introductionText, introductionText) || other.introductionText == introductionText));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,introductionText);
+
+@override
+String toString() {
+  return 'MemberProfileUiModel(introductionText: $introductionText)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$MemberProfileUiModelCopyWith<$Res> implements $MemberProfileUiModelCopyWith<$Res> {
+  factory _$MemberProfileUiModelCopyWith(_MemberProfileUiModel value, $Res Function(_MemberProfileUiModel) _then) = __$MemberProfileUiModelCopyWithImpl;
+@override @useResult
+$Res call({
+ String introductionText
+});
+
+
+
+
+}
+/// @nodoc
+class __$MemberProfileUiModelCopyWithImpl<$Res>
+    implements _$MemberProfileUiModelCopyWith<$Res> {
+  __$MemberProfileUiModelCopyWithImpl(this._self, this._then);
+
+  final _MemberProfileUiModel _self;
+  final $Res Function(_MemberProfileUiModel) _then;
+
+/// Create a copy of MemberProfileUiModel
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? introductionText = null,}) {
+  return _then(_MemberProfileUiModel(
+introductionText: null == introductionText ? _self.introductionText : introductionText // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+// dart format on

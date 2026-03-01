@@ -21,6 +21,7 @@ description: 画面を実装するときに使います。
 
 - 画面の状態は、`画面名UiModel` クラスで定義してください。
 - `画面名UiModel` クラスは freezed で定義し、build_runner で生成してください。
+- `画面名UiModel` の各フィールドには、意味が分かるコメントを付与してください。
 
 # Riverpod の使い方はまだ未定義
 
@@ -38,6 +39,12 @@ description: 画面を実装するときに使います。
 - Figma URL が指定されていたら Figma MCP を使い、指定の Frame を実装する
 - 画面クラス名は Figma の Frame 名と同じにする
 
+## 画面の背景色
+
+- Scaffold の backgroundColor は、設定しないでください。
+
 ## Edge-to-edge 対応
 
 - Figma 上のステータスバーとナビゲーションバーの重なりを考慮して実装してください。
+- 余白調整は `MediaQuery` の直接計算より、`SafeArea` を優先して利用してください。
+- `ListView` の場合は、最終要素に `SafeArea(top: false)` を配置する方法を優先してください。
