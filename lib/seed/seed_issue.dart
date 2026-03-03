@@ -2,13 +2,18 @@
 class SeedIssue {
   /// [SeedIssue] を生成します。
   const SeedIssue({
+    required this.id,
     required this.title,
     required this.body,
     required this.relativePoint,
     required this.cycleStartAt,
     required this.cycleEndAt,
     required this.status,
+    required this.statusLabel,
   });
+
+  /// Issue の識別子です。
+  final String id;
 
   /// Issue のタイトルです。
   final String title;
@@ -27,4 +32,7 @@ class SeedIssue {
 
   /// ステータスです。
   final String status;
+
+  /// ステータス表示名です。
+  final String statusLabel;
 }

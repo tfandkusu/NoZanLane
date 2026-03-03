@@ -33,14 +33,22 @@ class _TestAssetBundle extends CachingAssetBundle {
 void main() {
   test('YAML から Issue シード一覧を読み込める', () async {
     const yaml = '''
+cycles:
+  - id: cycle_1
+    start_at: 2026-03-01T09:00:00+09:00
+    end_at: 2026-03-08T18:00:00+09:00
+
+statuses:
+  - id: todo
+    label: 未着手
+
 issues:
-  - title: テスト Issue
+  - id: issue_1
+    title: テスト Issue
     body: テスト本文
     relative_point: 5
-    cycle:
-      start_at: 2026-03-01T09:00:00+09:00
-      end_at: 2026-03-08T18:00:00+09:00
-    status: todo
+    cycle_id: cycle_1
+    status_id: todo
 ''';
 
     final loader = SeedIssueLoader(
@@ -50,10 +58,12 @@ issues:
     final issues = await loader.load();
 
     expect(issues, hasLength(1));
+    expect(issues.first.id, 'issue_1');
     expect(issues.first.title, 'テスト Issue');
     expect(issues.first.body, 'テスト本文');
     expect(issues.first.relativePoint, 5);
     expect(issues.first.status, 'todo');
+    expect(issues.first.statusLabel, '未着手');
     expect(
       issues.first.cycleStartAt,
       DateTime.parse('2026-03-01T09:00:00+09:00'),
