@@ -1,2 +1,31 @@
 # NoZanLane
-Offline Mac desktop task planner with relative point estimates and velocity tracking.
+
+相対的なポイント見積もりとベロシティ追跡を備えたオフラインMacデスクトップのタスク管理ツール。
+
+## 開発プロセス
+
+このリポジトリは Codex を使ったバイブコーディングで開発を進めている。
+
+### 仕様の作成
+
+- [GitHub Issue](https://github.com/tfandkusu/NoZanLane/issues) にひとつのプルリクとして適切な粒度で仕様を記載する。
+- 画面仕様は Figma で作成し、Issue にリンクを記載する。
+
+### バイブコーディング
+
+- Codex に Issue の番号を渡すと、Codex がプルリクを作成する。
+
+### レビュー
+
+- プルリクの動作を手元で Widgetbook またはアプリを起動して確認する。
+- プルリクのコードをレビューする。
+
+#### 修正
+
+- 問題点があれば、Codex に修正を依頼する。
+- 必要に応じて、スキルを更新する。
+- 必要に応じて、仕様書の作成を依頼する。
+
+#### マージ
+
+- 問題点が無ければマージする。
