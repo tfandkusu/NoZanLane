@@ -1,24 +1,31 @@
 # NoZanLane
 
-Offline Mac desktop task planner with relative point estimates and velocity tracking.
+相対的なポイント見積もりとベロシティ追跡を備えたオフラインMacデスクトップのタスク管理ツール。
 
 ## 開発プロセス
 
-このリポジトリは Codex を使ったバイブコーディングで開発を進めています。
+このリポジトリは Codex を使ったバイブコーディングで開発を進めている。
 
-```mermaid
-C4Context
-  title 開発プロセス（C4 Context）
+### 仕様の作成
 
-  Person(dev, "開発者", "Issue作成、Figma作成、PRレビューとマージ")
-  System(github, "GitHub", "Issue管理とPull Request管理")
-  System(figma, "Figma", "画面設計とデザイン共有")
-  System(codex, "Codex App", "IssueとFigmaを基に実装と仕様書mdを作成")
+- [GitHub Issue](https://github.com/tfandkusu/NoZanLane/issues) にひとつのプルリクとして適切な粒度で仕様を記載する。
+- 画面仕様は Figma で作成し、Issue にリンクを記載する。
 
-  Rel(dev, github, "Issueを作成し、PRをレビューしてマージ")
-  Rel(dev, figma, "デザインを作成")
-  Rel(dev, codex, "Issueを指定して実装を依頼")
-  Rel(github, codex, "Issue情報を提供")
-  Rel(figma, codex, "必要に応じてFigmaリンクを参照")
-  Rel(codex, github, "実装結果をPRとして作成")
-```
+### バイブコーディング
+
+- Codex に Issue の番号を渡すと、Codex がプルリクを作成する。
+
+### レビュー
+
+- プルリクの動作を手元で Widgetbook またはアプリを起動して確認する。
+- プルリクをレビューする。
+
+#### 修正
+
+- 問題点があれば、プルリクにコメントをする等で、Codex へ教えて、修正を依頼する。
+- 必要に応じて、スキルを更新する。
+- 必要に応じて、仕様書の作成を依頼する。
+
+#### マージ
+
+- 問題点が無ければマージする。
