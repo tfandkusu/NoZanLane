@@ -1,0 +1,46 @@
+issues:
+  - title: CI が intermittent に失敗する
+    body: |
+      main ブランチの CI が高頻度で flaky failure になります。
+      再実行で通るケースがあるため、失敗パターンの収集と再現条件の特定を行ってください。
+    relative_point: 3
+    cycle:
+      start_at: 2026-03-02T09:00:00+09:00
+      end_at: 2026-03-09T18:00:00+09:00
+    status: todo
+  - title: API のレスポンスが遅い
+    body: |
+      一部エンドポイントで p95 レイテンシが 1.5s を超えています。
+      ボトルネックを計測し、改善案と実装をお願いします。
+    relative_point: 5
+    cycle:
+      start_at: 2026-03-02T09:00:00+09:00
+      end_at: 2026-03-16T18:00:00+09:00
+    status: in_progress
+  - title: 依存パッケージの脆弱性対応
+    body: |
+      依存ライブラリに既知脆弱性が報告されています。
+      影響範囲を整理し、安全なバージョンへ更新してください。
+    relative_point: 2
+    cycle:
+      start_at: 2026-03-02T09:00:00+09:00
+      end_at: 2026-03-06T18:00:00+09:00
+    status: todo
+  - title: ログ基盤の構造化出力対応
+    body: |
+      障害解析を効率化するため、アプリログを構造化 JSON に統一します。
+      最低限、request_id と user_id を必須項目にしてください。
+    relative_point: 8
+    cycle:
+      start_at: 2026-03-09T09:00:00+09:00
+      end_at: 2026-03-23T18:00:00+09:00
+    status: todo
+  - title: 新規メンバー向け開発セットアップ整備
+    body: |
+      参加初日のオンボーディング時間を短縮するため、
+      セットアップ手順の自動化スクリプトとドキュメントを整備します。
+    relative_point: 1
+    cycle:
+      start_at: 2026-03-02T09:00:00+09:00
+      end_at: 2026-03-05T18:00:00+09:00
+    status: done
