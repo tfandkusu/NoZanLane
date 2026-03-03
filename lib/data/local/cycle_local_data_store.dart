@@ -1,31 +1,5 @@
 import 'package:drift/drift.dart';
-
-/// サイクル1件を表す値オブジェクト。
-class Cycle {
-  /// コンストラクタ。
-  const Cycle({
-    required this.id,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.startAt,
-    required this.endAt,
-  });
-
-  /// プライマリーID。
-  final int id;
-
-  /// 作成日時。
-  final DateTime createdAt;
-
-  /// 更新日時。
-  final DateTime updatedAt;
-
-  /// サイクル開始日時。
-  final DateTime startAt;
-
-  /// サイクル終了日時。
-  final DateTime endAt;
-}
+import 'package:no_zan_lane/data/entity/cycle.dart';
 
 /// サイクルを SQLite に保存するローカルデータストア。
 class CycleLocalDataStore {
@@ -56,13 +30,13 @@ class CycleLocalDataStore {
     required DateTime endAt,
   }) async {
     await _ensureOpen();
-    final now = _now().toIso8601String();
+    final now = _now().millisecondsSinceEpoch;
     return _executor.runInsert(
       '''
       INSERT INTO cycles (created_at, updated_at, start_at, end_at)
       VALUES (?, ?, ?, ?)
       ''',
-      [now, now, startAt.toIso8601String(), endAt.toIso8601String()],
+      [now, now, startAt.millisecondsSinceEpoch, endAt.millisecondsSinceEpoch],
     );
   }
 
@@ -82,10 +56,18 @@ class CycleLocalDataStore {
         .map(
           (row) => Cycle(
             id: _requiredInt(row, 'id'),
-            createdAt: DateTime.parse(_requiredString(row, 'created_at')),
-            updatedAt: DateTime.parse(_requiredString(row, 'updated_at')),
-            startAt: DateTime.parse(_requiredString(row, 'start_at')),
-            endAt: DateTime.parse(_requiredString(row, 'end_at')),
+            createdAt: DateTime.fromMillisecondsSinceEpoch(
+              _requiredInt(row, 'created_at'),
+            ),
+            updatedAt: DateTime.fromMillisecondsSinceEpoch(
+              _requiredInt(row, 'updated_at'),
+            ),
+            startAt: DateTime.fromMillisecondsSinceEpoch(
+              _requiredInt(row, 'start_at'),
+            ),
+            endAt: DateTime.fromMillisecondsSinceEpoch(
+              _requiredInt(row, 'end_at'),
+            ),
           ),
         )
         .toList(growable: false);
@@ -99,10 +81,10 @@ class CycleLocalDataStore {
     await _executor.runCustom('''
       CREATE TABLE IF NOT EXISTS cycles (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        created_at TEXT NOT NULL,
-        updated_at TEXT NOT NULL,
-        start_at TEXT NOT NULL,
-        end_at TEXT NOT NULL
+        created_at INTEGER NOT NULL,
+        updated_at INTEGER NOT NULL,
+        start_at INTEGER NOT NULL,
+        end_at INTEGER NOT NULL
       )
     ''');
 
@@ -150,14 +132,6 @@ class CycleLocalDataStore {
       return value;
     }
     throw StateError('$key が int ではありません: $value');
-  }
-
-  String _requiredString(Map<String, Object?> row, String key) {
-    final value = row[key];
-    if (value is String) {
-      return value;
-    }
-    throw StateError('$key が String ではありません: $value');
   }
 }
 

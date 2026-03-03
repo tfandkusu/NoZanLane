@@ -1,6 +1,6 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:no_zan_lane/local_data_store/cycle_local_data_store.dart';
+import 'package:no_zan_lane/data/local/cycle_local_data_store.dart';
 
 void main() {
   group('CycleLocalDataStore', () {

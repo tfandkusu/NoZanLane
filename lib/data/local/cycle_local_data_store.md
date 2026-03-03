@@ -9,12 +9,12 @@
 - テーブル名: `cycles`
 - カラム:
   - `id` (INTEGER, PRIMARY KEY AUTOINCREMENT)
-  - `created_at` (TEXT, NOT NULL)
-  - `updated_at` (TEXT, NOT NULL)
-  - `start_at` (TEXT, NOT NULL)
-  - `end_at` (TEXT, NOT NULL)
+  - `created_at` (INTEGER, NOT NULL)
+  - `updated_at` (INTEGER, NOT NULL)
+  - `start_at` (INTEGER, NOT NULL)
+  - `end_at` (INTEGER, NOT NULL)
 
-日時は `DateTime.toIso8601String()` の文字列形式で保存する。
+日時は `DateTime.millisecondsSinceEpoch`（UNIX ミリ秒）で保存する。
 
 ## 初期データ
 
@@ -38,6 +38,10 @@
   - `start_at` 昇順で全件取得する。
 - `close()`
   - DB 接続をクローズする。
+
+## エンティティ
+
+- `Cycle` は `lib/data/entity/cycle.dart` に定義する。
 
 ## テスト観点
 
