@@ -32,7 +32,10 @@
 
 ## Provider
 
-- `cycleLocalDataStoreProvider` がデータストア生成と初期化を担当する。
+- `lib/data/local/local_database_provider.dart` の `LocalDatabaseInitializer` が
+  DB 生成・初期化を担当する。
+- `lib/data/local/cycle_local_data_store_provider.dart` が
+  `CycleLocalDataStore` の Provider を提供する。
 - `CycleLocalDataStore` の取得は Riverpod Provider 経由で行う。
 
 ## 初期データ

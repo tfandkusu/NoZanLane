@@ -2,7 +2,9 @@ import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:no_zan_lane/data/local/cycle_local_data_store.dart';
+import 'package:no_zan_lane/data/local/cycle_local_data_store_provider.dart';
 import 'package:no_zan_lane/data/local/local_data_store_seed.dart';
+import 'package:no_zan_lane/data/local/local_database_provider.dart';
 
 void main() {
   group('CycleLocalDataStore', () {
@@ -12,7 +14,7 @@ void main() {
     setUp(() async {
       container = ProviderContainer(
         overrides: [
-          cycleDatabaseExecutorProvider.overrideWithValue(
+          localDatabaseExecutorProvider.overrideWithValue(
             NativeDatabase.memory(),
           ),
           cycleNowProvider.overrideWithValue(

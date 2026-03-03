@@ -361,10 +361,10 @@ class CycleCompanion extends UpdateCompanion<CycleData> {
   }
 }
 
-abstract class _$_CycleLocalDataStoreDatabase extends GeneratedDatabase {
-  _$_CycleLocalDataStoreDatabase(QueryExecutor e) : super(e);
-  $_CycleLocalDataStoreDatabaseManager get managers =>
-      $_CycleLocalDataStoreDatabaseManager(this);
+abstract class _$CycleLocalDataStoreDatabase extends GeneratedDatabase {
+  _$CycleLocalDataStoreDatabase(QueryExecutor e) : super(e);
+  $CycleLocalDataStoreDatabaseManager get managers =>
+      $CycleLocalDataStoreDatabaseManager(this);
   late final $CycleTable cycle = $CycleTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
@@ -391,7 +391,7 @@ typedef $$CycleTableUpdateCompanionBuilder =
     });
 
 class $$CycleTableFilterComposer
-    extends Composer<_$_CycleLocalDataStoreDatabase, $CycleTable> {
+    extends Composer<_$CycleLocalDataStoreDatabase, $CycleTable> {
   $$CycleTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -426,7 +426,7 @@ class $$CycleTableFilterComposer
 }
 
 class $$CycleTableOrderingComposer
-    extends Composer<_$_CycleLocalDataStoreDatabase, $CycleTable> {
+    extends Composer<_$CycleLocalDataStoreDatabase, $CycleTable> {
   $$CycleTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -461,7 +461,7 @@ class $$CycleTableOrderingComposer
 }
 
 class $$CycleTableAnnotationComposer
-    extends Composer<_$_CycleLocalDataStoreDatabase, $CycleTable> {
+    extends Composer<_$CycleLocalDataStoreDatabase, $CycleTable> {
   $$CycleTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -488,7 +488,7 @@ class $$CycleTableAnnotationComposer
 class $$CycleTableTableManager
     extends
         RootTableManager<
-          _$_CycleLocalDataStoreDatabase,
+          _$CycleLocalDataStoreDatabase,
           $CycleTable,
           CycleData,
           $$CycleTableFilterComposer,
@@ -499,7 +499,7 @@ class $$CycleTableTableManager
           (
             CycleData,
             BaseReferences<
-              _$_CycleLocalDataStoreDatabase,
+              _$CycleLocalDataStoreDatabase,
               $CycleTable,
               CycleData
             >,
@@ -507,7 +507,7 @@ class $$CycleTableTableManager
           CycleData,
           PrefetchHooks Function()
         > {
-  $$CycleTableTableManager(_$_CycleLocalDataStoreDatabase db, $CycleTable table)
+  $$CycleTableTableManager(_$CycleLocalDataStoreDatabase db, $CycleTable table)
     : super(
         TableManagerState(
           db: db,
@@ -556,7 +556,7 @@ class $$CycleTableTableManager
 
 typedef $$CycleTableProcessedTableManager =
     ProcessedTableManager<
-      _$_CycleLocalDataStoreDatabase,
+      _$CycleLocalDataStoreDatabase,
       $CycleTable,
       CycleData,
       $$CycleTableFilterComposer,
@@ -566,15 +566,15 @@ typedef $$CycleTableProcessedTableManager =
       $$CycleTableUpdateCompanionBuilder,
       (
         CycleData,
-        BaseReferences<_$_CycleLocalDataStoreDatabase, $CycleTable, CycleData>,
+        BaseReferences<_$CycleLocalDataStoreDatabase, $CycleTable, CycleData>,
       ),
       CycleData,
       PrefetchHooks Function()
     >;
 
-class $_CycleLocalDataStoreDatabaseManager {
-  final _$_CycleLocalDataStoreDatabase _db;
-  $_CycleLocalDataStoreDatabaseManager(this._db);
+class $CycleLocalDataStoreDatabaseManager {
+  final _$CycleLocalDataStoreDatabase _db;
+  $CycleLocalDataStoreDatabaseManager(this._db);
   $$CycleTableTableManager get cycle =>
       $$CycleTableTableManager(_db, _db.cycle);
 }
