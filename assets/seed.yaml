@@ -1,0 +1,72 @@
+cycles:
+  - id: 1
+  - id: 2
+  - id: 3
+
+statuses:
+  - id: 1
+    label: TODO
+  - id: 2
+    label: Progress
+  - id: 3
+    label: Review
+  - id: 4
+    label: Done
+
+issues:
+  - id: 1
+    title: CI が intermittent に失敗する
+    body: |
+      main ブランチの CI が高頻度で flaky failure になります。
+      再実行で通るケースがあるため、失敗パターンの収集と再現条件の特定を行ってください。
+    point: 3
+    cycle_id: 1
+    status_id: 1
+  - id: 2
+    title: API のレスポンスが遅い
+    body: |
+      一部エンドポイントで p95 レイテンシが 1.5s を超えています。
+      ボトルネックを計測し、改善案と実装をお願いします。
+    point: 5
+    cycle_id: 2
+    status_id: 2
+  - id: 3
+    title: 依存パッケージの脆弱性対応
+    body: |
+      依存ライブラリに既知脆弱性が報告されています。
+      影響範囲を整理し、安全なバージョンへ更新してください。
+    point: 2
+    cycle_id: 1
+    status_id: 3
+  - id: 4
+    title: ログ基盤の構造化出力対応
+    body: |
+      障害解析を効率化するため、アプリログを構造化 JSON に統一します。
+      最低限、request_id と user_id を必須項目にしてください。
+    point: 8
+    cycle_id: 2
+    status_id: 1
+  - id: 5
+    title: 新規メンバー向け開発セットアップ整備
+    body: |
+      参加初日のオンボーディング時間を短縮するため、
+      セットアップ手順の自動化スクリプトとドキュメントを整備します。
+    point: 1
+    cycle_id: 1
+    status_id: 4
+  - id: 6
+    title: Feature Flag の整理
+    body: |
+      期限切れの Feature Flag が増えて運用コストが高くなっています。
+      利用状況を棚卸しし、削除計画を立てて不要なフラグを整理してください。
+    point: 3
+    cycle_id: 3
+    status_id: 1
+  - id: 7
+    title: E2E テストの失敗調査
+    body: |
+      夜間実行の E2E テストで断続的に失敗が発生しています。
+      失敗ログを分析し、再現手順の確立と恒久対策を実施してください。
+    point: 5
+    cycle_id: 3
+    status_id: 2
