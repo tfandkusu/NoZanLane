@@ -1,103 +1,52 @@
 import 'package:drift/drift.dart';
 import 'package:no_zan_lane/data/entity/cycle.dart';
 
-/// サイクルを SQLite に保存するローカルデータストア。
-class CycleLocalDataStore {
-  CycleLocalDataStore._({
-    required QueryExecutor executor,
-    DateTime Function()? now,
-  }) : _executor = executor,
-       _now = now ?? DateTime.now;
+part 'cycle_local_data_store.g.dart';
 
-  final QueryExecutor _executor;
+/// サイクルを保存するテーブル定義。
+class CycleRecords extends Table {
+  /// テーブル名。
+  @override
+  String get tableName => 'cycles';
+
+  /// プライマリーID。
+  IntColumn get id => integer().autoIncrement()();
+
+  /// 作成日時（UNIX ミリ秒）。
+  IntColumn get createdAt => integer()();
+
+  /// 更新日時（UNIX ミリ秒）。
+  IntColumn get updatedAt => integer()();
+
+  /// サイクル開始日時（UNIX ミリ秒）。
+  IntColumn get startAt => integer()();
+
+  /// サイクル終了日時（UNIX ミリ秒）。
+  IntColumn get endAt => integer()();
+}
+
+@DriftDatabase(tables: [CycleRecords])
+class _CycleLocalDataStoreDatabase extends _$_CycleLocalDataStoreDatabase {
+  _CycleLocalDataStoreDatabase({
+    required QueryExecutor executor,
+    required DateTime Function() now,
+  }) : _now = now,
+       super(executor);
+
   final DateTime Function() _now;
-  final _queryExecutorUser = _NoOpQueryExecutorUser();
-  bool _isOpen = false;
 
-  /// データストアを生成して初期化する。
-  static Future<CycleLocalDataStore> create({
-    required QueryExecutor executor,
-    DateTime Function()? now,
-  }) async {
-    final store = CycleLocalDataStore._(executor: executor, now: now);
-    await store._initialize();
-    return store;
-  }
+  @override
+  int get schemaVersion => 1;
 
-  /// サイクルを1件追加し、挿入されたIDを返す。
-  Future<int> add({
-    required DateTime startAt,
-    required DateTime endAt,
-  }) async {
-    await _ensureOpen();
-    final now = _now().millisecondsSinceEpoch;
-    return _executor.runInsert(
-      '''
-      INSERT INTO cycles (created_at, updated_at, start_at, end_at)
-      VALUES (?, ?, ?, ?)
-      ''',
-      [now, now, startAt.millisecondsSinceEpoch, endAt.millisecondsSinceEpoch],
-    );
-  }
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onCreate: (m) async {
+      await m.createAll();
+      await _insertInitialCycles();
+    },
+  );
 
-  /// サイクルを開始日時の昇順で全件返す。
-  Future<List<Cycle>> list() async {
-    await _ensureOpen();
-    final rows = await _executor.runSelect(
-      '''
-      SELECT id, created_at, updated_at, start_at, end_at
-      FROM cycles
-      ORDER BY start_at ASC
-      ''',
-      const [],
-    );
-
-    return rows
-        .map(
-          (row) => Cycle(
-            id: _requiredInt(row, 'id'),
-            createdAt: DateTime.fromMillisecondsSinceEpoch(
-              _requiredInt(row, 'created_at'),
-            ),
-            updatedAt: DateTime.fromMillisecondsSinceEpoch(
-              _requiredInt(row, 'updated_at'),
-            ),
-            startAt: DateTime.fromMillisecondsSinceEpoch(
-              _requiredInt(row, 'start_at'),
-            ),
-            endAt: DateTime.fromMillisecondsSinceEpoch(
-              _requiredInt(row, 'end_at'),
-            ),
-          ),
-        )
-        .toList(growable: false);
-  }
-
-  /// DB 接続をクローズする。
-  Future<void> close() => _executor.close();
-
-  Future<void> _initialize() async {
-    await _ensureOpen();
-    await _executor.runCustom('''
-      CREATE TABLE IF NOT EXISTS cycles (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        created_at INTEGER NOT NULL,
-        updated_at INTEGER NOT NULL,
-        start_at INTEGER NOT NULL,
-        end_at INTEGER NOT NULL
-      )
-    ''');
-
-    final countResult = await _executor.runSelect(
-      'SELECT COUNT(*) AS count FROM cycles',
-      const [],
-    );
-
-    final existingCount = _requiredInt(countResult.first, 'count');
-    if (existingCount > 0) {
-      return;
-    }
-
+  Future<void> _insertInitialCycles() async {
     final monday = _startOfWeek(_now());
     final starts = [
       monday.subtract(const Duration(days: 7)),
@@ -105,19 +54,21 @@ class CycleLocalDataStore {
       monday.add(const Duration(days: 7)),
     ];
 
-    for (final start in starts) {
-      final end = start.add(const Duration(days: 7));
-      await add(startAt: start, endAt: end);
-    }
-  }
-
-  Future<void> _ensureOpen() async {
-    if (_isOpen) {
-      return;
-    }
-
-    await _executor.ensureOpen(_queryExecutorUser);
-    _isOpen = true;
+    final now = _now().millisecondsSinceEpoch;
+    await batch((batch) {
+      for (final start in starts) {
+        final end = start.add(const Duration(days: 7));
+        batch.insert(
+          cycleRecords,
+          CycleRecordsCompanion.insert(
+            createdAt: now,
+            updatedAt: now,
+            startAt: start.millisecondsSinceEpoch,
+            endAt: end.millisecondsSinceEpoch,
+          ),
+        );
+      }
+    });
   }
 
   DateTime _startOfWeek(DateTime dateTime) {
@@ -125,23 +76,73 @@ class CycleLocalDataStore {
     final daysFromMonday = midnight.weekday - DateTime.monday;
     return midnight.subtract(Duration(days: daysFromMonday));
   }
-
-  int _requiredInt(Map<String, Object?> row, String key) {
-    final value = row[key];
-    if (value is int) {
-      return value;
-    }
-    throw StateError('$key が int ではありません: $value');
-  }
 }
 
-class _NoOpQueryExecutorUser implements QueryExecutorUser {
-  @override
-  int get schemaVersion => 1;
+/// サイクルを SQLite に保存するローカルデータストア。
+class CycleLocalDataStore {
+  CycleLocalDataStore._({
+    required _CycleLocalDataStoreDatabase database,
+    required DateTime Function() now,
+  }) : _database = database,
+       _now = now;
 
-  @override
-  Future<void> beforeOpen(
-    QueryExecutor executor,
-    OpeningDetails details,
-  ) async {}
+  final _CycleLocalDataStoreDatabase _database;
+  final DateTime Function() _now;
+
+  /// データストアを生成して初期化する。
+  static Future<CycleLocalDataStore> create({
+    required QueryExecutor executor,
+    DateTime Function()? now,
+  }) async {
+    final nowProvider = now ?? DateTime.now;
+    final database = _CycleLocalDataStoreDatabase(
+      executor: executor,
+      now: nowProvider,
+    );
+
+    // DB をオープンしてマイグレーションを実行する。
+    await database.customSelect('SELECT 1').getSingle();
+
+    return CycleLocalDataStore._(database: database, now: nowProvider);
+  }
+
+  /// サイクルを1件追加し、挿入されたIDを返す。
+  Future<int> add({
+    required DateTime startAt,
+    required DateTime endAt,
+  }) {
+    final now = _now().millisecondsSinceEpoch;
+    return _database
+        .into(_database.cycleRecords)
+        .insert(
+          CycleRecordsCompanion.insert(
+            createdAt: now,
+            updatedAt: now,
+            startAt: startAt.millisecondsSinceEpoch,
+            endAt: endAt.millisecondsSinceEpoch,
+          ),
+        );
+  }
+
+  /// サイクルを開始日時の昇順で全件返す。
+  Future<List<Cycle>> list() async {
+    final records = await (_database.select(
+      _database.cycleRecords,
+    )..orderBy([(table) => OrderingTerm.asc(table.startAt)])).get();
+
+    return records
+        .map(
+          (record) => Cycle(
+            id: record.id,
+            createdAt: DateTime.fromMillisecondsSinceEpoch(record.createdAt),
+            updatedAt: DateTime.fromMillisecondsSinceEpoch(record.updatedAt),
+            startAt: DateTime.fromMillisecondsSinceEpoch(record.startAt),
+            endAt: DateTime.fromMillisecondsSinceEpoch(record.endAt),
+          ),
+        )
+        .toList(growable: false);
+  }
+
+  /// DB 接続をクローズする。
+  Future<void> close() => _database.close();
 }

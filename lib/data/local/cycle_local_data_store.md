@@ -7,6 +7,7 @@
 ## テーブル
 
 - テーブル名: `cycles`
+- 定義方法: Drift の `CycleRecords extends Table`
 - カラム:
   - `id` (INTEGER, PRIMARY KEY AUTOINCREMENT)
   - `created_at` (INTEGER, NOT NULL)
@@ -15,6 +16,12 @@
   - `end_at` (INTEGER, NOT NULL)
 
 日時は `DateTime.millisecondsSinceEpoch`（UNIX ミリ秒）で保存する。
+
+## マイグレーション
+
+- Drift の `MigrationStrategy` を使用する。
+- `onCreate` で `m.createAll()` を実行してテーブル作成する。
+- `onCreate` 内で初期データ 3 件（先週・今週・来週）を投入する。
 
 ## 初期データ
 
