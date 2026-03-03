@@ -7,19 +7,18 @@ Offline Mac desktop task planner with relative point estimates and velocity trac
 このリポジトリは Codex を使ったバイブコーディングで開発を進めています。
 
 ```mermaid
-stateDiagram-v2
-  [*] --> Issue作成
-  Issue作成 --> Figma作成
-  Figma作成 --> 参照判定
+C4Context
+  title 開発プロセス（C4 Context）
 
-  state 参照判定 <<choice>>
-  参照判定 --> Figma参照あり: IssueにFigmaリンクあり
-  参照判定 --> Figma参照なし: IssueにFigmaリンクなし
+  Person(dev, "開発者", "Issue作成、Figma作成、PRレビューとマージ")
+  System(github, "GitHub", "Issue管理とPull Request管理")
+  System(figma, "Figma", "画面設計とデザイン共有")
+  System(codex, "Codex App", "IssueとFigmaを基に実装と仕様書mdを作成")
 
-  Figma参照あり --> Codex実装
-  Figma参照なし --> Codex実装
-
-  Codex実装 --> PRレビュー
-  PRレビュー --> マージ完了
-  マージ完了 --> [*]
+  Rel(dev, github, "Issueを作成し、PRをレビューしてマージ")
+  Rel(dev, figma, "デザインを作成")
+  Rel(dev, codex, "Issueを指定して実装を依頼")
+  Rel(github, codex, "Issue情報を提供")
+  Rel(figma, codex, "必要に応じてFigmaリンクを参照")
+  Rel(codex, github, "実装結果をPRとして作成")
 ```
