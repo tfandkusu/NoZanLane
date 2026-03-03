@@ -1,6 +1,7 @@
 cycles:
   - id: 1
   - id: 2
+  - id: 3
 
 statuses:
   - id: 1
@@ -21,14 +22,6 @@ issues:
     relative_point: 3
     cycle_id: 1
     status_id: 1
-  - id: 2
-    title: API のレスポンスが遅い
-    body: |
-      一部エンドポイントで p95 レイテンシが 1.5s を超えています。
-      ボトルネックを計測し、改善案と実装をお願いします。
-    relative_point: 5
-    cycle_id: 2
-    status_id: 2
   - id: 3
     title: 依存パッケージの脆弱性対応
     body: |
@@ -37,14 +30,6 @@ issues:
     relative_point: 2
     cycle_id: 1
     status_id: 3
-  - id: 4
-    title: ログ基盤の構造化出力対応
-    body: |
-      障害解析を効率化するため、アプリログを構造化 JSON に統一します。
-      最低限、request_id と user_id を必須項目にしてください。
-    relative_point: 8
-    cycle_id: 2
-    status_id: 1
   - id: 5
     title: 新規メンバー向け開発セットアップ整備
     body: |
@@ -53,3 +38,19 @@ issues:
     relative_point: 1
     cycle_id: 1
     status_id: 4
+  - id: 2
+    title: API のレスポンスが遅い
+    body: |
+      一部エンドポイントで p95 レイテンシが 1.5s を超えています。
+      ボトルネックを計測し、改善案と実装をお願いします。
+    relative_point: 5
+    cycle_id: 2
+    status_id: 2
+  - id: 4
+    title: ログ基盤の構造化出力対応
+    body: |
+      障害解析を効率化するため、アプリログを構造化 JSON に統一します。
+      最低限、request_id と user_id を必須項目にしてください。
+    relative_point: 8
+    cycle_id: 2
+    status_id: 1
