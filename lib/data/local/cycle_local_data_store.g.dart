@@ -3,12 +3,11 @@
 part of 'cycle_local_data_store.dart';
 
 // ignore_for_file: type=lint
-class $CycleRecordsTable extends CycleRecords
-    with TableInfo<$CycleRecordsTable, Cycle> {
+class $CycleTable extends Cycle with TableInfo<$CycleTable, CycleData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $CycleRecordsTable(this.attachedDatabase, [this._alias]);
+  $CycleTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -79,7 +78,7 @@ class $CycleRecordsTable extends CycleRecords
   static const String $name = 'cycles';
   @override
   VerificationContext validateIntegrity(
-    Insertable<Cycle> instance, {
+    Insertable<CycleData> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -125,9 +124,9 @@ class $CycleRecordsTable extends CycleRecords
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Cycle map(Map<String, dynamic> data, {String? tablePrefix}) {
+  CycleData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Cycle(
+    return CycleData(
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
@@ -152,12 +151,12 @@ class $CycleRecordsTable extends CycleRecords
   }
 
   @override
-  $CycleRecordsTable createAlias(String alias) {
-    return $CycleRecordsTable(attachedDatabase, alias);
+  $CycleTable createAlias(String alias) {
+    return $CycleTable(attachedDatabase, alias);
   }
 }
 
-class Cycle extends DataClass implements Insertable<Cycle> {
+class CycleData extends DataClass implements Insertable<CycleData> {
   /// プライマリーID。
   final int id;
 
@@ -172,7 +171,7 @@ class Cycle extends DataClass implements Insertable<Cycle> {
 
   /// サイクル終了日時（UNIX ミリ秒）。
   final int endAt;
-  const Cycle({
+  const CycleData({
     required this.id,
     required this.createdAt,
     required this.updatedAt,
@@ -190,8 +189,8 @@ class Cycle extends DataClass implements Insertable<Cycle> {
     return map;
   }
 
-  CycleRecordsCompanion toCompanion(bool nullToAbsent) {
-    return CycleRecordsCompanion(
+  CycleCompanion toCompanion(bool nullToAbsent) {
+    return CycleCompanion(
       id: Value(id),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
@@ -200,12 +199,12 @@ class Cycle extends DataClass implements Insertable<Cycle> {
     );
   }
 
-  factory Cycle.fromJson(
+  factory CycleData.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Cycle(
+    return CycleData(
       id: serializer.fromJson<int>(json['id']),
       createdAt: serializer.fromJson<int>(json['createdAt']),
       updatedAt: serializer.fromJson<int>(json['updatedAt']),
@@ -225,21 +224,21 @@ class Cycle extends DataClass implements Insertable<Cycle> {
     };
   }
 
-  Cycle copyWith({
+  CycleData copyWith({
     int? id,
     int? createdAt,
     int? updatedAt,
     int? startAt,
     int? endAt,
-  }) => Cycle(
+  }) => CycleData(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
     startAt: startAt ?? this.startAt,
     endAt: endAt ?? this.endAt,
   );
-  Cycle copyWithCompanion(CycleRecordsCompanion data) {
-    return Cycle(
+  CycleData copyWithCompanion(CycleCompanion data) {
+    return CycleData(
       id: data.id.present ? data.id.value : this.id,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
@@ -250,7 +249,7 @@ class Cycle extends DataClass implements Insertable<Cycle> {
 
   @override
   String toString() {
-    return (StringBuffer('Cycle(')
+    return (StringBuffer('CycleData(')
           ..write('id: $id, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
@@ -265,7 +264,7 @@ class Cycle extends DataClass implements Insertable<Cycle> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is Cycle &&
+      (other is CycleData &&
           other.id == this.id &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
@@ -273,20 +272,20 @@ class Cycle extends DataClass implements Insertable<Cycle> {
           other.endAt == this.endAt);
 }
 
-class CycleRecordsCompanion extends UpdateCompanion<Cycle> {
+class CycleCompanion extends UpdateCompanion<CycleData> {
   final Value<int> id;
   final Value<int> createdAt;
   final Value<int> updatedAt;
   final Value<int> startAt;
   final Value<int> endAt;
-  const CycleRecordsCompanion({
+  const CycleCompanion({
     this.id = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.startAt = const Value.absent(),
     this.endAt = const Value.absent(),
   });
-  CycleRecordsCompanion.insert({
+  CycleCompanion.insert({
     this.id = const Value.absent(),
     required int createdAt,
     required int updatedAt,
@@ -296,7 +295,7 @@ class CycleRecordsCompanion extends UpdateCompanion<Cycle> {
        updatedAt = Value(updatedAt),
        startAt = Value(startAt),
        endAt = Value(endAt);
-  static Insertable<Cycle> custom({
+  static Insertable<CycleData> custom({
     Expression<int>? id,
     Expression<int>? createdAt,
     Expression<int>? updatedAt,
@@ -312,14 +311,14 @@ class CycleRecordsCompanion extends UpdateCompanion<Cycle> {
     });
   }
 
-  CycleRecordsCompanion copyWith({
+  CycleCompanion copyWith({
     Value<int>? id,
     Value<int>? createdAt,
     Value<int>? updatedAt,
     Value<int>? startAt,
     Value<int>? endAt,
   }) {
-    return CycleRecordsCompanion(
+    return CycleCompanion(
       id: id ?? this.id,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -351,7 +350,7 @@ class CycleRecordsCompanion extends UpdateCompanion<Cycle> {
 
   @override
   String toString() {
-    return (StringBuffer('CycleRecordsCompanion(')
+    return (StringBuffer('CycleCompanion(')
           ..write('id: $id, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
@@ -366,24 +365,24 @@ abstract class _$_CycleLocalDataStoreDatabase extends GeneratedDatabase {
   _$_CycleLocalDataStoreDatabase(QueryExecutor e) : super(e);
   $_CycleLocalDataStoreDatabaseManager get managers =>
       $_CycleLocalDataStoreDatabaseManager(this);
-  late final $CycleRecordsTable cycleRecords = $CycleRecordsTable(this);
+  late final $CycleTable cycle = $CycleTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [cycleRecords];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [cycle];
 }
 
-typedef $$CycleRecordsTableCreateCompanionBuilder =
-    CycleRecordsCompanion Function({
+typedef $$CycleTableCreateCompanionBuilder =
+    CycleCompanion Function({
       Value<int> id,
       required int createdAt,
       required int updatedAt,
       required int startAt,
       required int endAt,
     });
-typedef $$CycleRecordsTableUpdateCompanionBuilder =
-    CycleRecordsCompanion Function({
+typedef $$CycleTableUpdateCompanionBuilder =
+    CycleCompanion Function({
       Value<int> id,
       Value<int> createdAt,
       Value<int> updatedAt,
@@ -391,9 +390,9 @@ typedef $$CycleRecordsTableUpdateCompanionBuilder =
       Value<int> endAt,
     });
 
-class $$CycleRecordsTableFilterComposer
-    extends Composer<_$_CycleLocalDataStoreDatabase, $CycleRecordsTable> {
-  $$CycleRecordsTableFilterComposer({
+class $$CycleTableFilterComposer
+    extends Composer<_$_CycleLocalDataStoreDatabase, $CycleTable> {
+  $$CycleTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -426,9 +425,9 @@ class $$CycleRecordsTableFilterComposer
   );
 }
 
-class $$CycleRecordsTableOrderingComposer
-    extends Composer<_$_CycleLocalDataStoreDatabase, $CycleRecordsTable> {
-  $$CycleRecordsTableOrderingComposer({
+class $$CycleTableOrderingComposer
+    extends Composer<_$_CycleLocalDataStoreDatabase, $CycleTable> {
+  $$CycleTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -461,9 +460,9 @@ class $$CycleRecordsTableOrderingComposer
   );
 }
 
-class $$CycleRecordsTableAnnotationComposer
-    extends Composer<_$_CycleLocalDataStoreDatabase, $CycleRecordsTable> {
-  $$CycleRecordsTableAnnotationComposer({
+class $$CycleTableAnnotationComposer
+    extends Composer<_$_CycleLocalDataStoreDatabase, $CycleTable> {
+  $$CycleTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -486,41 +485,39 @@ class $$CycleRecordsTableAnnotationComposer
       $composableBuilder(column: $table.endAt, builder: (column) => column);
 }
 
-class $$CycleRecordsTableTableManager
+class $$CycleTableTableManager
     extends
         RootTableManager<
           _$_CycleLocalDataStoreDatabase,
-          $CycleRecordsTable,
-          Cycle,
-          $$CycleRecordsTableFilterComposer,
-          $$CycleRecordsTableOrderingComposer,
-          $$CycleRecordsTableAnnotationComposer,
-          $$CycleRecordsTableCreateCompanionBuilder,
-          $$CycleRecordsTableUpdateCompanionBuilder,
+          $CycleTable,
+          CycleData,
+          $$CycleTableFilterComposer,
+          $$CycleTableOrderingComposer,
+          $$CycleTableAnnotationComposer,
+          $$CycleTableCreateCompanionBuilder,
+          $$CycleTableUpdateCompanionBuilder,
           (
-            Cycle,
+            CycleData,
             BaseReferences<
               _$_CycleLocalDataStoreDatabase,
-              $CycleRecordsTable,
-              Cycle
+              $CycleTable,
+              CycleData
             >,
           ),
-          Cycle,
+          CycleData,
           PrefetchHooks Function()
         > {
-  $$CycleRecordsTableTableManager(
-    _$_CycleLocalDataStoreDatabase db,
-    $CycleRecordsTable table,
-  ) : super(
+  $$CycleTableTableManager(_$_CycleLocalDataStoreDatabase db, $CycleTable table)
+    : super(
         TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$CycleRecordsTableFilterComposer($db: db, $table: table),
+              $$CycleTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$CycleRecordsTableOrderingComposer($db: db, $table: table),
+              $$CycleTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$CycleRecordsTableAnnotationComposer($db: db, $table: table),
+              $$CycleTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
@@ -528,7 +525,7 @@ class $$CycleRecordsTableTableManager
                 Value<int> updatedAt = const Value.absent(),
                 Value<int> startAt = const Value.absent(),
                 Value<int> endAt = const Value.absent(),
-              }) => CycleRecordsCompanion(
+              }) => CycleCompanion(
                 id: id,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
@@ -542,7 +539,7 @@ class $$CycleRecordsTableTableManager
                 required int updatedAt,
                 required int startAt,
                 required int endAt,
-              }) => CycleRecordsCompanion.insert(
+              }) => CycleCompanion.insert(
                 id: id,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
@@ -557,31 +554,27 @@ class $$CycleRecordsTableTableManager
       );
 }
 
-typedef $$CycleRecordsTableProcessedTableManager =
+typedef $$CycleTableProcessedTableManager =
     ProcessedTableManager<
       _$_CycleLocalDataStoreDatabase,
-      $CycleRecordsTable,
-      Cycle,
-      $$CycleRecordsTableFilterComposer,
-      $$CycleRecordsTableOrderingComposer,
-      $$CycleRecordsTableAnnotationComposer,
-      $$CycleRecordsTableCreateCompanionBuilder,
-      $$CycleRecordsTableUpdateCompanionBuilder,
+      $CycleTable,
+      CycleData,
+      $$CycleTableFilterComposer,
+      $$CycleTableOrderingComposer,
+      $$CycleTableAnnotationComposer,
+      $$CycleTableCreateCompanionBuilder,
+      $$CycleTableUpdateCompanionBuilder,
       (
-        Cycle,
-        BaseReferences<
-          _$_CycleLocalDataStoreDatabase,
-          $CycleRecordsTable,
-          Cycle
-        >,
+        CycleData,
+        BaseReferences<_$_CycleLocalDataStoreDatabase, $CycleTable, CycleData>,
       ),
-      Cycle,
+      CycleData,
       PrefetchHooks Function()
     >;
 
 class $_CycleLocalDataStoreDatabaseManager {
   final _$_CycleLocalDataStoreDatabase _db;
   $_CycleLocalDataStoreDatabaseManager(this._db);
-  $$CycleRecordsTableTableManager get cycleRecords =>
-      $$CycleRecordsTableTableManager(_db, _db.cycleRecords);
+  $$CycleTableTableManager get cycle =>
+      $$CycleTableTableManager(_db, _db.cycle);
 }

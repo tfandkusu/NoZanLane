@@ -1,25 +1,36 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:no_zan_lane/data/local/cycle_local_data_store.dart';
-import 'package:no_zan_lane/data/local/cycle_local_data_store_seed.dart';
+import 'package:no_zan_lane/data/local/local_data_store_seed.dart';
 
 void main() {
   group('CycleLocalDataStore', () {
+    late ProviderContainer container;
     late CycleLocalDataStore dataStore;
 
     setUp(() async {
-      dataStore = await CycleLocalDataStore.create(
-        executor: NativeDatabase.memory(),
+      container = ProviderContainer(
+        overrides: [
+          cycleDatabaseExecutorProvider.overrideWithValue(
+            NativeDatabase.memory(),
+          ),
+          cycleNowProvider.overrideWithValue(
+            () => DateTime(2026, 3, 4, 10, 30),
+          ),
+        ],
+      );
+
+      dataStore = await container.read(cycleLocalDataStoreProvider.future);
+
+      final seed = LocalDataStoreSeed(
         now: () => DateTime(2026, 3, 4, 10, 30),
       );
-      final seed = CycleLocalDataStoreSeed(
-        now: () => DateTime(2026, 3, 4, 10, 30),
-      );
-      await seed.seedInitialCycles(dataStore);
+      await seed.seedInitialData(dataStore);
     });
 
-    tearDown(() async {
-      await dataStore.close();
+    tearDown(() {
+      container.dispose();
     });
 
     test('初期データ3件が取得できる', () async {

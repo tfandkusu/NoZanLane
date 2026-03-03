@@ -1,16 +1,16 @@
 import 'package:no_zan_lane/data/local/cycle_local_data_store.dart';
 
-/// CycleLocalDataStore の初期データ投入を担当するクラス。
-class CycleLocalDataStoreSeed {
+/// ローカルデータストアの初期データ投入を担当するクラス。
+class LocalDataStoreSeed {
   /// コンストラクタ。
-  const CycleLocalDataStoreSeed({DateTime Function()? now})
+  const LocalDataStoreSeed({DateTime Function()? now})
     : _now = now ?? DateTime.now;
 
   final DateTime Function() _now;
 
-  /// サイクル初期データ（先週・今週・来週）を投入する。
-  Future<void> seedInitialCycles(CycleLocalDataStore dataStore) async {
-    final existing = await dataStore.list();
+  /// 初期データを投入する。
+  Future<void> seedInitialData(CycleLocalDataStore cycleLocalDataStore) async {
+    final existing = await cycleLocalDataStore.list();
     if (existing.isNotEmpty) {
       return;
     }
@@ -24,7 +24,7 @@ class CycleLocalDataStoreSeed {
 
     for (final start in starts) {
       final end = start.add(const Duration(days: 7));
-      await dataStore.add(startAt: start, endAt: end);
+      await cycleLocalDataStore.add(startAt: start, endAt: end);
     }
   }
 

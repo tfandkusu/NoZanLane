@@ -1,35 +1,13 @@
 import 'package:drift/drift.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:no_zan_lane/data/local/record/cycle.dart';
 
 part 'cycle_local_data_store.g.dart';
 
-/// サイクルを保存するテーブル定義。
-@DataClassName('Cycle')
-class CycleRecords extends Table {
-  /// テーブル名。
-  @override
-  String get tableName => 'cycles';
-
-  /// プライマリーID。
-  IntColumn get id => integer().autoIncrement()();
-
-  /// 作成日時（UNIX ミリ秒）。
-  IntColumn get createdAt => integer()();
-
-  /// 更新日時（UNIX ミリ秒）。
-  IntColumn get updatedAt => integer()();
-
-  /// サイクル開始日時（UNIX ミリ秒）。
-  IntColumn get startAt => integer()();
-
-  /// サイクル終了日時（UNIX ミリ秒）。
-  IntColumn get endAt => integer()();
-}
-
-@DriftDatabase(tables: [CycleRecords])
+@DriftDatabase(tables: [Cycle])
 class _CycleLocalDataStoreDatabase extends _$_CycleLocalDataStoreDatabase {
-  _CycleLocalDataStoreDatabase({
-    required QueryExecutor executor,
-  }) : super(executor);
+  _CycleLocalDataStoreDatabase({required QueryExecutor executor})
+    : super(executor);
 
   @override
   int get schemaVersion => 1;
@@ -42,6 +20,32 @@ class _CycleLocalDataStoreDatabase extends _$_CycleLocalDataStoreDatabase {
   );
 }
 
+/// CycleLocalDataStore が利用する QueryExecutor を提供する Provider。
+final cycleDatabaseExecutorProvider = Provider<QueryExecutor>((ref) {
+  throw UnimplementedError('cycleDatabaseExecutorProvider を override してください。');
+});
+
+/// 現在時刻プロバイダ。
+final cycleNowProvider = Provider<DateTime Function()>(
+  (ref) => DateTime.now,
+);
+
+/// CycleLocalDataStore の生成と初期化を担当する Provider。
+final cycleLocalDataStoreProvider = FutureProvider<CycleLocalDataStore>((
+  ref,
+) async {
+  final executor = ref.watch(cycleDatabaseExecutorProvider);
+  final now = ref.watch(cycleNowProvider);
+
+  final database = _CycleLocalDataStoreDatabase(executor: executor);
+  ref.onDispose(database.close);
+
+  // DB をオープンしてマイグレーションを実行する。
+  await database.customSelect('SELECT 1').getSingle();
+
+  return CycleLocalDataStore._(database: database, now: now);
+});
+
 /// サイクルを SQLite に保存するローカルデータストア。
 class CycleLocalDataStore {
   CycleLocalDataStore._({
@@ -53,22 +57,6 @@ class CycleLocalDataStore {
   final _CycleLocalDataStoreDatabase _database;
   final DateTime Function() _now;
 
-  /// データストアを生成して初期化する。
-  static Future<CycleLocalDataStore> create({
-    required QueryExecutor executor,
-    DateTime Function()? now,
-  }) async {
-    final nowProvider = now ?? DateTime.now;
-    final database = _CycleLocalDataStoreDatabase(
-      executor: executor,
-    );
-
-    // DB をオープンしてマイグレーションを実行する。
-    await database.customSelect('SELECT 1').getSingle();
-
-    return CycleLocalDataStore._(database: database, now: nowProvider);
-  }
-
   /// サイクルを1件追加し、挿入されたIDを返す。
   Future<int> add({
     required DateTime startAt,
@@ -76,9 +64,9 @@ class CycleLocalDataStore {
   }) {
     final now = _now().millisecondsSinceEpoch;
     return _database
-        .into(_database.cycleRecords)
+        .into(_database.cycle)
         .insert(
-          CycleRecordsCompanion.insert(
+          CycleCompanion.insert(
             createdAt: now,
             updatedAt: now,
             startAt: startAt.millisecondsSinceEpoch,
@@ -88,14 +76,11 @@ class CycleLocalDataStore {
   }
 
   /// サイクルを開始日時の昇順で全件返す。
-  Future<List<Cycle>> list() async {
+  Future<List<CycleData>> list() async {
     final records = await (_database.select(
-      _database.cycleRecords,
+      _database.cycle,
     )..orderBy([(table) => OrderingTerm.asc(table.startAt)])).get();
 
     return records.toList(growable: false);
   }
-
-  /// DB 接続をクローズする。
-  Future<void> close() => _database.close();
 }

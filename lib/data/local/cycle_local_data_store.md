@@ -7,8 +7,8 @@
 ## テーブル
 
 - テーブル名: `cycles`
-- 定義方法: Drift の `CycleRecords extends Table`
-- 外部利用する型: Drift が生成する `Cycle`
+- 定義方法: `lib/data/local/record/cycle.dart` の `Cycle extends Table`
+- 外部利用する型: Drift が生成する `CycleData`
 - カラム:
   - `id` (INTEGER, PRIMARY KEY AUTOINCREMENT)
   - `created_at` (INTEGER, NOT NULL)
@@ -26,9 +26,14 @@
 
 ## Seed
 
-- 初期データ投入は `CycleLocalDataStoreSeed` が担当する。
+- 初期データ投入は `LocalDataStoreSeed` が担当する。
 - 呼び出し元はテストコードのみとする。
-- `seedInitialCycles` で先週・今週・来週の 3 件を投入する。
+- `seedInitialData` で先週・今週・来週の 3 件を投入する。
+
+## Provider
+
+- `cycleLocalDataStoreProvider` がデータストア生成と初期化を担当する。
+- `CycleLocalDataStore` の取得は Riverpod Provider 経由で行う。
 
 ## 初期データ
 
@@ -50,8 +55,6 @@
   - 戻り値は挿入された `id`。
 - `list()`
   - `start_at` 昇順で全件取得する。
-- `close()`
-  - DB 接続をクローズする。
 
 ## テスト観点
 
