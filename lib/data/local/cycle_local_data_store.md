@@ -8,6 +8,7 @@
 
 - テーブル名: `cycles`
 - 定義方法: Drift の `CycleRecords extends Table`
+- 外部利用する型: Drift が生成する `Cycle`
 - カラム:
   - `id` (INTEGER, PRIMARY KEY AUTOINCREMENT)
   - `created_at` (INTEGER, NOT NULL)
@@ -21,7 +22,13 @@
 
 - Drift の `MigrationStrategy` を使用する。
 - `onCreate` で `m.createAll()` を実行してテーブル作成する。
-- `onCreate` 内で初期データ 3 件（先週・今週・来週）を投入する。
+- `onCreate` では初期データ投入を行わない。
+
+## Seed
+
+- 初期データ投入は `CycleLocalDataStoreSeed` が担当する。
+- 呼び出し元はテストコードのみとする。
+- `seedInitialCycles` で先週・今週・来週の 3 件を投入する。
 
 ## 初期データ
 
@@ -45,10 +52,6 @@
   - `start_at` 昇順で全件取得する。
 - `close()`
   - DB 接続をクローズする。
-
-## エンティティ
-
-- `Cycle` は `lib/data/entity/cycle.dart` に定義する。
 
 ## テスト観点
 

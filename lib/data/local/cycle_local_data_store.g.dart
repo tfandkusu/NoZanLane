@@ -4,7 +4,7 @@ part of 'cycle_local_data_store.dart';
 
 // ignore_for_file: type=lint
 class $CycleRecordsTable extends CycleRecords
-    with TableInfo<$CycleRecordsTable, CycleRecord> {
+    with TableInfo<$CycleRecordsTable, Cycle> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -79,7 +79,7 @@ class $CycleRecordsTable extends CycleRecords
   static const String $name = 'cycles';
   @override
   VerificationContext validateIntegrity(
-    Insertable<CycleRecord> instance, {
+    Insertable<Cycle> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -125,9 +125,9 @@ class $CycleRecordsTable extends CycleRecords
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  CycleRecord map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Cycle map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return CycleRecord(
+    return Cycle(
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
@@ -157,7 +157,7 @@ class $CycleRecordsTable extends CycleRecords
   }
 }
 
-class CycleRecord extends DataClass implements Insertable<CycleRecord> {
+class Cycle extends DataClass implements Insertable<Cycle> {
   /// プライマリーID。
   final int id;
 
@@ -172,7 +172,7 @@ class CycleRecord extends DataClass implements Insertable<CycleRecord> {
 
   /// サイクル終了日時（UNIX ミリ秒）。
   final int endAt;
-  const CycleRecord({
+  const Cycle({
     required this.id,
     required this.createdAt,
     required this.updatedAt,
@@ -200,12 +200,12 @@ class CycleRecord extends DataClass implements Insertable<CycleRecord> {
     );
   }
 
-  factory CycleRecord.fromJson(
+  factory Cycle.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return CycleRecord(
+    return Cycle(
       id: serializer.fromJson<int>(json['id']),
       createdAt: serializer.fromJson<int>(json['createdAt']),
       updatedAt: serializer.fromJson<int>(json['updatedAt']),
@@ -225,21 +225,21 @@ class CycleRecord extends DataClass implements Insertable<CycleRecord> {
     };
   }
 
-  CycleRecord copyWith({
+  Cycle copyWith({
     int? id,
     int? createdAt,
     int? updatedAt,
     int? startAt,
     int? endAt,
-  }) => CycleRecord(
+  }) => Cycle(
     id: id ?? this.id,
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
     startAt: startAt ?? this.startAt,
     endAt: endAt ?? this.endAt,
   );
-  CycleRecord copyWithCompanion(CycleRecordsCompanion data) {
-    return CycleRecord(
+  Cycle copyWithCompanion(CycleRecordsCompanion data) {
+    return Cycle(
       id: data.id.present ? data.id.value : this.id,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
@@ -250,7 +250,7 @@ class CycleRecord extends DataClass implements Insertable<CycleRecord> {
 
   @override
   String toString() {
-    return (StringBuffer('CycleRecord(')
+    return (StringBuffer('Cycle(')
           ..write('id: $id, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
@@ -265,7 +265,7 @@ class CycleRecord extends DataClass implements Insertable<CycleRecord> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is CycleRecord &&
+      (other is Cycle &&
           other.id == this.id &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
@@ -273,7 +273,7 @@ class CycleRecord extends DataClass implements Insertable<CycleRecord> {
           other.endAt == this.endAt);
 }
 
-class CycleRecordsCompanion extends UpdateCompanion<CycleRecord> {
+class CycleRecordsCompanion extends UpdateCompanion<Cycle> {
   final Value<int> id;
   final Value<int> createdAt;
   final Value<int> updatedAt;
@@ -296,7 +296,7 @@ class CycleRecordsCompanion extends UpdateCompanion<CycleRecord> {
        updatedAt = Value(updatedAt),
        startAt = Value(startAt),
        endAt = Value(endAt);
-  static Insertable<CycleRecord> custom({
+  static Insertable<Cycle> custom({
     Expression<int>? id,
     Expression<int>? createdAt,
     Expression<int>? updatedAt,
@@ -491,21 +491,21 @@ class $$CycleRecordsTableTableManager
         RootTableManager<
           _$_CycleLocalDataStoreDatabase,
           $CycleRecordsTable,
-          CycleRecord,
+          Cycle,
           $$CycleRecordsTableFilterComposer,
           $$CycleRecordsTableOrderingComposer,
           $$CycleRecordsTableAnnotationComposer,
           $$CycleRecordsTableCreateCompanionBuilder,
           $$CycleRecordsTableUpdateCompanionBuilder,
           (
-            CycleRecord,
+            Cycle,
             BaseReferences<
               _$_CycleLocalDataStoreDatabase,
               $CycleRecordsTable,
-              CycleRecord
+              Cycle
             >,
           ),
-          CycleRecord,
+          Cycle,
           PrefetchHooks Function()
         > {
   $$CycleRecordsTableTableManager(
@@ -561,21 +561,21 @@ typedef $$CycleRecordsTableProcessedTableManager =
     ProcessedTableManager<
       _$_CycleLocalDataStoreDatabase,
       $CycleRecordsTable,
-      CycleRecord,
+      Cycle,
       $$CycleRecordsTableFilterComposer,
       $$CycleRecordsTableOrderingComposer,
       $$CycleRecordsTableAnnotationComposer,
       $$CycleRecordsTableCreateCompanionBuilder,
       $$CycleRecordsTableUpdateCompanionBuilder,
       (
-        CycleRecord,
+        Cycle,
         BaseReferences<
           _$_CycleLocalDataStoreDatabase,
           $CycleRecordsTable,
-          CycleRecord
+          Cycle
         >,
       ),
-      CycleRecord,
+      Cycle,
       PrefetchHooks Function()
     >;
 
