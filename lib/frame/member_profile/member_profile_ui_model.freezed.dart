@@ -14,6 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$MemberProfileUiModel {
 
+/// 自己紹介文として表示する本文です。
  String get introductionText;
 /// Create a copy of MemberProfileUiModel
 /// with the given fields replaced by the non-null parameter values.
@@ -209,6 +210,7 @@ class _MemberProfileUiModel implements MemberProfileUiModel {
   const _MemberProfileUiModel({required this.introductionText});
   
 
+/// 自己紹介文として表示する本文です。
 @override final  String introductionText;
 
 /// Create a copy of MemberProfileUiModel
