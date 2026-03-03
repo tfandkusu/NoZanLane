@@ -60,7 +60,7 @@ flutter:
   generate: true
   assets:
     - assets/images/ds_profile_main_photo.jpg
-    - assets/seeds/issues.yaml
+    - assets/seed.yaml
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
