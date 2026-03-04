@@ -18,7 +18,6 @@ void main() {
             final database = NoZanLaneDatabase(
               executor: NativeDatabase.memory(),
             );
-            await database.customSelect('SELECT 1').getSingle();
             ref.onDispose(database.close);
             return database;
           }),
