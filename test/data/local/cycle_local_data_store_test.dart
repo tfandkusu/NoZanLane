@@ -1,34 +1,37 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:no_zan_lane/data/local/cycle_local_data_store.dart';
-import 'package:no_zan_lane/data/local/cycle_local_data_store_provider.dart';
-import 'package:no_zan_lane/data/local/local_data_store_seed.dart';
-import 'package:no_zan_lane/data/local/local_database_provider.dart';
+import 'package:no_zan_lane/data/local/database/no_zan_lane_database.dart';
+import 'package:no_zan_lane/data/local/seed/local_data_seed.dart';
+import 'package:no_zan_lane/data/local/service/cycle_local_data_source.dart';
+import 'package:no_zan_lane/data/local/service/local_current_time.dart';
 
 void main() {
-  group('CycleLocalDataStore', () {
+  group('CycleLocalDataSource', () {
     late ProviderContainer container;
-    late CycleLocalDataStore dataStore;
+    late CycleLocalDataSource dataSource;
 
     setUp(() async {
       container = ProviderContainer(
         overrides: [
-          localDatabaseExecutorProvider.overrideWithValue(
-            NativeDatabase.memory(),
-          ),
-          cycleNowProvider.overrideWithValue(
-            () => DateTime(2026, 3, 4, 10, 30),
+          noZanLaneDatabaseProvider.overrideWith((ref) async {
+            final database = NoZanLaneDatabase(
+              executor: NativeDatabase.memory(),
+            );
+            await database.customSelect('SELECT 1').getSingle();
+            ref.onDispose(database.close);
+            return database;
+          }),
+          localCurrentTimeProvider.overrideWithValue(
+            _FixedLocalCurrentTime(DateTime(2026, 3, 4, 10, 30)),
           ),
         ],
       );
 
-      dataStore = await container.read(cycleLocalDataStoreProvider.future);
+      dataSource = await container.read(cycleLocalDataSourceProvider.future);
 
-      final seed = LocalDataStoreSeed(
-        now: () => DateTime(2026, 3, 4, 10, 30),
-      );
-      await seed.seedInitialData(dataStore);
+      final seed = container.read(localDataSeedProvider);
+      await seed.seedInitialData(dataSource);
     });
 
     tearDown(() {
@@ -36,7 +39,7 @@ void main() {
     });
 
     test('初期データ3件が取得できる', () async {
-      final cycles = await dataStore.list();
+      final cycles = await dataSource.list();
 
       expect(cycles, hasLength(3));
       expect(
@@ -66,11 +69,11 @@ void main() {
     });
 
     test('4個目を追加して一覧取得できる', () async {
-      final insertedId = await dataStore.add(
+      final insertedId = await dataSource.add(
         startAt: DateTime(2026, 3, 16),
         endAt: DateTime(2026, 3, 23),
       );
-      final cycles = await dataStore.list();
+      final cycles = await dataSource.list();
 
       expect(insertedId, 4);
       expect(cycles, hasLength(4));
@@ -84,4 +87,13 @@ void main() {
       );
     });
   });
+}
+
+class _FixedLocalCurrentTime extends LocalCurrentTime {
+  _FixedLocalCurrentTime(this._value);
+
+  final DateTime _value;
+
+  @override
+  DateTime now() => _value;
 }

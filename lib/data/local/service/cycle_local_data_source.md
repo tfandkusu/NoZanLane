@@ -1,13 +1,13 @@
-# CycleLocalDataStore 仕様書
+# CycleLocalDataSource 仕様書
 
 ## 目的
 
-サイクル情報を SQLite に保存するローカルデータストア。
+サイクル情報を SQLite に保存するローカルデータソース。
 
 ## テーブル
 
 - テーブル名: `cycles`
-- 定義方法: `lib/data/local/record/cycle.dart` の `Cycle extends Table`
+- 定義方法: `lib/data/local/entity/cycle.dart` の `Cycle extends Table`
 - 外部利用する型: Drift が生成する `CycleData`
 - カラム:
   - `id` (INTEGER, PRIMARY KEY AUTOINCREMENT)
@@ -26,17 +26,19 @@
 
 ## Seed
 
-- 初期データ投入は `LocalDataStoreSeed` が担当する。
+- 初期データ投入は `lib/data/local/seed/local_data_seed.dart` の
+  `LocalDataSeed` が担当する。
 - 呼び出し元はテストコードのみとする。
 - `seedInitialData` で先週・今週・来週の 3 件を投入する。
 
 ## Provider
 
-- `lib/data/local/local_database_provider.dart` の `LocalDatabaseInitializer` が
-  DB 生成・初期化を担当する。
-- `lib/data/local/cycle_local_data_store_provider.dart` が
-  `CycleLocalDataStore` の Provider を提供する。
-- `CycleLocalDataStore` の取得は Riverpod Provider 経由で行う。
+- `lib/data/local/database/no_zan_lane_database.dart` の
+  `noZanLaneDatabaseProvider` から `NoZanLaneDatabase` を取得する。
+  実行時には `noZanLaneDatabaseProvider` の override が必要。
+- `lib/data/local/service/cycle_local_data_source.dart` の
+  `cycleLocalDataSourceProvider` が `CycleLocalDataSource` を提供する。
+- `CycleLocalDataSource` の取得は Riverpod Provider 経由で行う。
 
 ## 初期データ
 

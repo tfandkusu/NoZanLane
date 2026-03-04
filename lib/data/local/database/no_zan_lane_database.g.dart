@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'cycle_local_data_store.dart';
+part of 'no_zan_lane_database.dart';
 
 // ignore_for_file: type=lint
 class $CycleTable extends Cycle with TableInfo<$CycleTable, CycleData> {
@@ -361,10 +361,9 @@ class CycleCompanion extends UpdateCompanion<CycleData> {
   }
 }
 
-abstract class _$CycleLocalDataStoreDatabase extends GeneratedDatabase {
-  _$CycleLocalDataStoreDatabase(QueryExecutor e) : super(e);
-  $CycleLocalDataStoreDatabaseManager get managers =>
-      $CycleLocalDataStoreDatabaseManager(this);
+abstract class _$NoZanLaneDatabase extends GeneratedDatabase {
+  _$NoZanLaneDatabase(QueryExecutor e) : super(e);
+  $NoZanLaneDatabaseManager get managers => $NoZanLaneDatabaseManager(this);
   late final $CycleTable cycle = $CycleTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
@@ -391,7 +390,7 @@ typedef $$CycleTableUpdateCompanionBuilder =
     });
 
 class $$CycleTableFilterComposer
-    extends Composer<_$CycleLocalDataStoreDatabase, $CycleTable> {
+    extends Composer<_$NoZanLaneDatabase, $CycleTable> {
   $$CycleTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -426,7 +425,7 @@ class $$CycleTableFilterComposer
 }
 
 class $$CycleTableOrderingComposer
-    extends Composer<_$CycleLocalDataStoreDatabase, $CycleTable> {
+    extends Composer<_$NoZanLaneDatabase, $CycleTable> {
   $$CycleTableOrderingComposer({
     required super.$db,
     required super.$table,
@@ -461,7 +460,7 @@ class $$CycleTableOrderingComposer
 }
 
 class $$CycleTableAnnotationComposer
-    extends Composer<_$CycleLocalDataStoreDatabase, $CycleTable> {
+    extends Composer<_$NoZanLaneDatabase, $CycleTable> {
   $$CycleTableAnnotationComposer({
     required super.$db,
     required super.$table,
@@ -488,7 +487,7 @@ class $$CycleTableAnnotationComposer
 class $$CycleTableTableManager
     extends
         RootTableManager<
-          _$CycleLocalDataStoreDatabase,
+          _$NoZanLaneDatabase,
           $CycleTable,
           CycleData,
           $$CycleTableFilterComposer,
@@ -498,16 +497,12 @@ class $$CycleTableTableManager
           $$CycleTableUpdateCompanionBuilder,
           (
             CycleData,
-            BaseReferences<
-              _$CycleLocalDataStoreDatabase,
-              $CycleTable,
-              CycleData
-            >,
+            BaseReferences<_$NoZanLaneDatabase, $CycleTable, CycleData>,
           ),
           CycleData,
           PrefetchHooks Function()
         > {
-  $$CycleTableTableManager(_$CycleLocalDataStoreDatabase db, $CycleTable table)
+  $$CycleTableTableManager(_$NoZanLaneDatabase db, $CycleTable table)
     : super(
         TableManagerState(
           db: db,
@@ -556,7 +551,7 @@ class $$CycleTableTableManager
 
 typedef $$CycleTableProcessedTableManager =
     ProcessedTableManager<
-      _$CycleLocalDataStoreDatabase,
+      _$NoZanLaneDatabase,
       $CycleTable,
       CycleData,
       $$CycleTableFilterComposer,
@@ -564,17 +559,66 @@ typedef $$CycleTableProcessedTableManager =
       $$CycleTableAnnotationComposer,
       $$CycleTableCreateCompanionBuilder,
       $$CycleTableUpdateCompanionBuilder,
-      (
-        CycleData,
-        BaseReferences<_$CycleLocalDataStoreDatabase, $CycleTable, CycleData>,
-      ),
+      (CycleData, BaseReferences<_$NoZanLaneDatabase, $CycleTable, CycleData>),
       CycleData,
       PrefetchHooks Function()
     >;
 
-class $CycleLocalDataStoreDatabaseManager {
-  final _$CycleLocalDataStoreDatabase _db;
-  $CycleLocalDataStoreDatabaseManager(this._db);
+class $NoZanLaneDatabaseManager {
+  final _$NoZanLaneDatabase _db;
+  $NoZanLaneDatabaseManager(this._db);
   $$CycleTableTableManager get cycle =>
       $$CycleTableTableManager(_db, _db.cycle);
 }
+
+// **************************************************************************
+// RiverpodGenerator
+// **************************************************************************
+
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint, type=warning
+/// NoZanLaneDatabase の生成と初期化を担当する Provider。
+
+@ProviderFor(noZanLaneDatabase)
+final noZanLaneDatabaseProvider = NoZanLaneDatabaseProvider._();
+
+/// NoZanLaneDatabase の生成と初期化を担当する Provider。
+
+final class NoZanLaneDatabaseProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<NoZanLaneDatabase>,
+          NoZanLaneDatabase,
+          FutureOr<NoZanLaneDatabase>
+        >
+    with
+        $FutureModifier<NoZanLaneDatabase>,
+        $FutureProvider<NoZanLaneDatabase> {
+  /// NoZanLaneDatabase の生成と初期化を担当する Provider。
+  NoZanLaneDatabaseProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'noZanLaneDatabaseProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$noZanLaneDatabaseHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<NoZanLaneDatabase> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<NoZanLaneDatabase> create(Ref ref) {
+    return noZanLaneDatabase(ref);
+  }
+}
+
+String _$noZanLaneDatabaseHash() => r'd3de43fa5d48069cc270285efe831791eb85bc44';
