@@ -621,4 +621,4 @@ final class NoZanLaneDatabaseProvider
   }
 }
 
-String _$noZanLaneDatabaseHash() => r'd3de43fa5d48069cc270285efe831791eb85bc44';
+String _$noZanLaneDatabaseHash() => r'd95792f613a69687724cca8733fbaaeb1257957b';

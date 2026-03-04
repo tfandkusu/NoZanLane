@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:drift/drift.dart';
+import 'package:drift/native.dart';
 import 'package:no_zan_lane/data/local/entity/cycle.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'no_zan_lane_database.g.dart';
@@ -24,5 +28,18 @@ class NoZanLaneDatabase extends _$NoZanLaneDatabase {
 /// NoZanLaneDatabase の生成と初期化を担当する Provider。
 @riverpod
 Future<NoZanLaneDatabase> noZanLaneDatabase(Ref ref) async {
-  throw UnimplementedError('noZanLaneDatabaseProvider を override してください。');
+  final applicationSupportDirectory = await getApplicationSupportDirectory();
+  await applicationSupportDirectory.create(recursive: true);
+  final databaseFile = File(
+    '${applicationSupportDirectory.path}/no_zan_lane.sqlite',
+  );
+
+  final database = NoZanLaneDatabase(
+    executor: LazyDatabase(
+      () async => NativeDatabase(databaseFile),
+    ),
+  );
+
+  ref.onDispose(database.close);
+  return database;
 }
