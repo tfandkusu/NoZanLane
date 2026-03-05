@@ -1,0 +1,12 @@
+---
+name: impl-local-data-source
+description: ローカルデータソース(Drift による SQLite への読み書き担当クラス)を実装するスキル。
+---
+
+# テーブル定義
+
+lib/data/local/entity/cycle.dart を参考に、テーブル定義を作成する。
+
+# データソースクラスの実装
+
+lib/data/local/data_source/cycle_local_data_source.dart を参考に、データソースクラスを実装する。
