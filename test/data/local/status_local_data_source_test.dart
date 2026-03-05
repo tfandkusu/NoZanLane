@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -31,43 +30,24 @@ void main() {
       container.dispose();
     });
 
-    test('seed.yaml から書き込み、ID昇順で取得できる', () async {
-      final yamlText = File('assets/seed.yaml').readAsStringSync();
-
-      await dataSource.writeFromSeedYaml(yamlText);
-      final statuses = await dataSource.list();
-
-      expect(statuses, hasLength(4));
-      expect(statuses.map((e) => e.id), [1, 2, 3, 4]);
-      expect(statuses.map((e) => e.label), [
-        'TODO',
-        'Progress',
-        'Review',
-        'Done',
-      ]);
-      expect(statuses.map((e) => e.color), [
-        '607D8B',
-        '2196F3',
-        'FF9800',
-        '4CAF50',
-      ]);
-    });
-
     test('入力順に依存せず ID 昇順で取得できる', () async {
-      const yamlText = '''
-statuses:
-  - id: 3
-    label: C
-    color: "333333"
-  - id: 1
-    label: A
-    color: "111111"
-  - id: 2
-    label: B
-    color: "222222"
-''';
-
-      await dataSource.writeFromSeedYaml(yamlText);
+      await dataSource.replaceAll([
+        StatusCompanion.insert(
+          id: const Value(3),
+          label: 'C',
+          color: '333333',
+        ),
+        StatusCompanion.insert(
+          id: const Value(1),
+          label: 'A',
+          color: '111111',
+        ),
+        StatusCompanion.insert(
+          id: const Value(2),
+          label: 'B',
+          color: '222222',
+        ),
+      ]);
       final statuses = await dataSource.list();
 
       expect(statuses.map((e) => e.id), [1, 2, 3]);

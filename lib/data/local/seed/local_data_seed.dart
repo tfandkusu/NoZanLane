@@ -1,6 +1,11 @@
+import 'package:drift/drift.dart';
+import 'package:flutter/services.dart';
+import 'package:no_zan_lane/data/local/database/no_zan_lane_database.dart';
 import 'package:no_zan_lane/data/local/service/cycle_local_data_source.dart';
 import 'package:no_zan_lane/data/local/service/local_current_time.dart';
+import 'package:no_zan_lane/data/local/service/status_local_data_source.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:yaml/yaml.dart';
 
 part 'local_data_seed.g.dart';
 
@@ -40,6 +45,37 @@ class LocalDataSeed {
       final end = start.add(const Duration(days: 7));
       await cycleLocalDataSource.add(startAt: start, endAt: end);
     }
+  }
+
+  /// seed.yaml の statuses を初期投入する。
+  ///
+  /// 既に1件以上存在する場合は投入しない。
+  Future<void> seedStatuses(
+    StatusLocalDataSource statusLocalDataSource, {
+    String? yamlText,
+  }) async {
+    final existing = await statusLocalDataSource.list();
+    if (existing.isNotEmpty) {
+      return;
+    }
+
+    final sourceYaml =
+        yamlText ?? await rootBundle.loadString('assets/seed.yaml');
+    final yaml = loadYaml(sourceYaml) as YamlMap;
+    final rawStatuses = yaml['statuses'] as YamlList;
+
+    final companions = rawStatuses
+        .map((raw) {
+          final entry = raw as YamlMap;
+          return StatusCompanion.insert(
+            id: Value(entry['id'] as int),
+            label: entry['label'] as String,
+            color: entry['color'] as String,
+          );
+        })
+        .toList(growable: false);
+
+    await statusLocalDataSource.replaceAll(companions);
   }
 
   /// 指定日時が含まれる週の月曜 00:00 を返す。
