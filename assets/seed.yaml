@@ -6,12 +6,16 @@ cycles:
 statuses:
   - id: 1
     label: TODO
+    color: 607D8B
   - id: 2
     label: Progress
+    color: 2196F3
   - id: 3
     label: Review
+    color: FF9800
   - id: 4
     label: Done
+    color: 4CAF50
 
 issues:
   - id: 1
