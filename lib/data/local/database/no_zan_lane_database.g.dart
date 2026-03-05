@@ -361,15 +361,262 @@ class CycleCompanion extends UpdateCompanion<CycleData> {
   }
 }
 
+class $StatusTable extends Status with TableInfo<$StatusTable, StatusData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $StatusTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _labelMeta = const VerificationMeta('label');
+  @override
+  late final GeneratedColumn<String> label = GeneratedColumn<String>(
+    'label',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _colorMeta = const VerificationMeta('color');
+  @override
+  late final GeneratedColumn<String> color = GeneratedColumn<String>(
+    'color',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, label, color];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'statuses';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<StatusData> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('label')) {
+      context.handle(
+        _labelMeta,
+        label.isAcceptableOrUnknown(data['label']!, _labelMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_labelMeta);
+    }
+    if (data.containsKey('color')) {
+      context.handle(
+        _colorMeta,
+        color.isAcceptableOrUnknown(data['color']!, _colorMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_colorMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  StatusData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return StatusData(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      label: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}label'],
+      )!,
+      color: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}color'],
+      )!,
+    );
+  }
+
+  @override
+  $StatusTable createAlias(String alias) {
+    return $StatusTable(attachedDatabase, alias);
+  }
+}
+
+class StatusData extends DataClass implements Insertable<StatusData> {
+  /// ステータスID。
+  final int id;
+
+  /// 表示ラベル。
+  final String label;
+
+  /// 表示色（16進RGB）。
+  final String color;
+  const StatusData({
+    required this.id,
+    required this.label,
+    required this.color,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['label'] = Variable<String>(label);
+    map['color'] = Variable<String>(color);
+    return map;
+  }
+
+  StatusCompanion toCompanion(bool nullToAbsent) {
+    return StatusCompanion(
+      id: Value(id),
+      label: Value(label),
+      color: Value(color),
+    );
+  }
+
+  factory StatusData.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return StatusData(
+      id: serializer.fromJson<int>(json['id']),
+      label: serializer.fromJson<String>(json['label']),
+      color: serializer.fromJson<String>(json['color']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'label': serializer.toJson<String>(label),
+      'color': serializer.toJson<String>(color),
+    };
+  }
+
+  StatusData copyWith({int? id, String? label, String? color}) => StatusData(
+    id: id ?? this.id,
+    label: label ?? this.label,
+    color: color ?? this.color,
+  );
+  StatusData copyWithCompanion(StatusCompanion data) {
+    return StatusData(
+      id: data.id.present ? data.id.value : this.id,
+      label: data.label.present ? data.label.value : this.label,
+      color: data.color.present ? data.color.value : this.color,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StatusData(')
+          ..write('id: $id, ')
+          ..write('label: $label, ')
+          ..write('color: $color')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, label, color);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is StatusData &&
+          other.id == this.id &&
+          other.label == this.label &&
+          other.color == this.color);
+}
+
+class StatusCompanion extends UpdateCompanion<StatusData> {
+  final Value<int> id;
+  final Value<String> label;
+  final Value<String> color;
+  const StatusCompanion({
+    this.id = const Value.absent(),
+    this.label = const Value.absent(),
+    this.color = const Value.absent(),
+  });
+  StatusCompanion.insert({
+    this.id = const Value.absent(),
+    required String label,
+    required String color,
+  }) : label = Value(label),
+       color = Value(color);
+  static Insertable<StatusData> custom({
+    Expression<int>? id,
+    Expression<String>? label,
+    Expression<String>? color,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (label != null) 'label': label,
+      if (color != null) 'color': color,
+    });
+  }
+
+  StatusCompanion copyWith({
+    Value<int>? id,
+    Value<String>? label,
+    Value<String>? color,
+  }) {
+    return StatusCompanion(
+      id: id ?? this.id,
+      label: label ?? this.label,
+      color: color ?? this.color,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (label.present) {
+      map['label'] = Variable<String>(label.value);
+    }
+    if (color.present) {
+      map['color'] = Variable<String>(color.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('StatusCompanion(')
+          ..write('id: $id, ')
+          ..write('label: $label, ')
+          ..write('color: $color')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$NoZanLaneDatabase extends GeneratedDatabase {
   _$NoZanLaneDatabase(QueryExecutor e) : super(e);
   $NoZanLaneDatabaseManager get managers => $NoZanLaneDatabaseManager(this);
   late final $CycleTable cycle = $CycleTable(this);
+  late final $StatusTable status = $StatusTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [cycle];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [cycle, status];
 }
 
 typedef $$CycleTableCreateCompanionBuilder =
@@ -563,12 +810,162 @@ typedef $$CycleTableProcessedTableManager =
       CycleData,
       PrefetchHooks Function()
     >;
+typedef $$StatusTableCreateCompanionBuilder =
+    StatusCompanion Function({
+      Value<int> id,
+      required String label,
+      required String color,
+    });
+typedef $$StatusTableUpdateCompanionBuilder =
+    StatusCompanion Function({
+      Value<int> id,
+      Value<String> label,
+      Value<String> color,
+    });
+
+class $$StatusTableFilterComposer
+    extends Composer<_$NoZanLaneDatabase, $StatusTable> {
+  $$StatusTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get label => $composableBuilder(
+    column: $table.label,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get color => $composableBuilder(
+    column: $table.color,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$StatusTableOrderingComposer
+    extends Composer<_$NoZanLaneDatabase, $StatusTable> {
+  $$StatusTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get label => $composableBuilder(
+    column: $table.label,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get color => $composableBuilder(
+    column: $table.color,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$StatusTableAnnotationComposer
+    extends Composer<_$NoZanLaneDatabase, $StatusTable> {
+  $$StatusTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get label =>
+      $composableBuilder(column: $table.label, builder: (column) => column);
+
+  GeneratedColumn<String> get color =>
+      $composableBuilder(column: $table.color, builder: (column) => column);
+}
+
+class $$StatusTableTableManager
+    extends
+        RootTableManager<
+          _$NoZanLaneDatabase,
+          $StatusTable,
+          StatusData,
+          $$StatusTableFilterComposer,
+          $$StatusTableOrderingComposer,
+          $$StatusTableAnnotationComposer,
+          $$StatusTableCreateCompanionBuilder,
+          $$StatusTableUpdateCompanionBuilder,
+          (
+            StatusData,
+            BaseReferences<_$NoZanLaneDatabase, $StatusTable, StatusData>,
+          ),
+          StatusData,
+          PrefetchHooks Function()
+        > {
+  $$StatusTableTableManager(_$NoZanLaneDatabase db, $StatusTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$StatusTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$StatusTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$StatusTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> label = const Value.absent(),
+                Value<String> color = const Value.absent(),
+              }) => StatusCompanion(id: id, label: label, color: color),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String label,
+                required String color,
+              }) => StatusCompanion.insert(id: id, label: label, color: color),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$StatusTableProcessedTableManager =
+    ProcessedTableManager<
+      _$NoZanLaneDatabase,
+      $StatusTable,
+      StatusData,
+      $$StatusTableFilterComposer,
+      $$StatusTableOrderingComposer,
+      $$StatusTableAnnotationComposer,
+      $$StatusTableCreateCompanionBuilder,
+      $$StatusTableUpdateCompanionBuilder,
+      (
+        StatusData,
+        BaseReferences<_$NoZanLaneDatabase, $StatusTable, StatusData>,
+      ),
+      StatusData,
+      PrefetchHooks Function()
+    >;
 
 class $NoZanLaneDatabaseManager {
   final _$NoZanLaneDatabase _db;
   $NoZanLaneDatabaseManager(this._db);
   $$CycleTableTableManager get cycle =>
       $$CycleTableTableManager(_db, _db.cycle);
+  $$StatusTableTableManager get status =>
+      $$StatusTableTableManager(_db, _db.status);
 }
 
 // **************************************************************************
