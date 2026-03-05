@@ -16,7 +16,7 @@ class NoZanLaneDatabase extends _$NoZanLaneDatabase {
   NoZanLaneDatabase({required QueryExecutor executor}) : super(executor);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -25,6 +25,10 @@ class NoZanLaneDatabase extends _$NoZanLaneDatabase {
     },
     onUpgrade: (m, from, to) async {
       if (from < 2) {
+        await m.createTable(status);
+      }
+      if (from == 2) {
+        await m.deleteTable('statuses');
         await m.createTable(status);
       }
     },

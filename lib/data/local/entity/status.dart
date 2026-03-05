@@ -12,8 +12,8 @@ class Status extends Table {
   /// 表示ラベル。
   TextColumn get label => text()();
 
-  /// 表示色（16進RGB）。
-  TextColumn get color => text()();
+  /// 表示色（0xRRGGBB）。
+  IntColumn get color => integer()();
 
   @override
   Set<Column<Object>> get primaryKey => {id};

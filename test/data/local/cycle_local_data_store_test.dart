@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -5,11 +7,13 @@ import 'package:no_zan_lane/data/local/database/no_zan_lane_database.dart';
 import 'package:no_zan_lane/data/local/seed/local_data_seed.dart';
 import 'package:no_zan_lane/data/local/service/cycle_local_data_source.dart';
 import 'package:no_zan_lane/data/local/service/local_current_time.dart';
+import 'package:no_zan_lane/data/local/service/status_local_data_source.dart';
 
 void main() {
   group('CycleLocalDataSource', () {
     late ProviderContainer container;
     late CycleLocalDataSource dataSource;
+    late StatusLocalDataSource statusLocalDataSource;
 
     setUp(() async {
       container = ProviderContainer(
@@ -28,9 +32,17 @@ void main() {
       );
 
       dataSource = await container.read(cycleLocalDataSourceProvider.future);
+      statusLocalDataSource = await container.read(
+        statusLocalDataSourceProvider.future,
+      );
 
       final seed = container.read(localDataSeedProvider);
-      await seed.seedInitialData(dataSource);
+      final yamlText = File('assets/seed.yaml').readAsStringSync();
+      await seed.seedInitialData(
+        cycleLocalDataSource: dataSource,
+        statusLocalDataSource: statusLocalDataSource,
+        yamlText: yamlText,
+      );
     });
 
     tearDown(() {

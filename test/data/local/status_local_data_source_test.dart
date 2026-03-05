@@ -35,17 +35,17 @@ void main() {
         StatusCompanion.insert(
           id: const Value(3),
           label: 'C',
-          color: '333333',
+          color: 0x333333,
         ),
         StatusCompanion.insert(
           id: const Value(1),
           label: 'A',
-          color: '111111',
+          color: 0x111111,
         ),
         StatusCompanion.insert(
           id: const Value(2),
           label: 'B',
-          color: '222222',
+          color: 0x222222,
         ),
       ]);
       final statuses = await dataSource.list();

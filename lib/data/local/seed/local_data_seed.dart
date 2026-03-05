@@ -22,13 +22,17 @@ class LocalDataSeed {
   final LocalCurrentTime _currentTime;
 
   /// 初期データを投入する。
-  ///
-  /// すでに1件以上存在する場合は投入せず終了する。
-  /// データが空の場合のみ、現在週を基準に
-  /// 「先週・今週・来週」の3サイクルを生成する。
-  Future<void> seedInitialData(
-    CycleLocalDataSource cycleLocalDataSource,
-  ) async {
+  Future<void> seedInitialData({
+    required CycleLocalDataSource cycleLocalDataSource,
+    required StatusLocalDataSource statusLocalDataSource,
+    String? yamlText,
+  }) async {
+    await _seedCycles(cycleLocalDataSource);
+    await _seedStatuses(statusLocalDataSource, yamlText: yamlText);
+  }
+
+  /// サイクルの初期データを投入する。
+  Future<void> _seedCycles(CycleLocalDataSource cycleLocalDataSource) async {
     final existing = await cycleLocalDataSource.list();
     if (existing.isNotEmpty) {
       return;
@@ -48,9 +52,7 @@ class LocalDataSeed {
   }
 
   /// seed.yaml の statuses を初期投入する。
-  ///
-  /// 既に1件以上存在する場合は投入しない。
-  Future<void> seedStatuses(
+  Future<void> _seedStatuses(
     StatusLocalDataSource statusLocalDataSource, {
     String? yamlText,
   }) async {
@@ -70,12 +72,20 @@ class LocalDataSeed {
           return StatusCompanion.insert(
             id: Value(entry['id'] as int),
             label: entry['label'] as String,
-            color: entry['color'] as String,
+            color: _toColorValue(entry['color']),
           );
         })
         .toList(growable: false);
 
     await statusLocalDataSource.replaceAll(companions);
+  }
+
+  /// color 値を 0xRRGGBB の整数に変換する。
+  int _toColorValue(Object? rawColor) {
+    if (rawColor is int) {
+      return rawColor;
+    }
+    return int.parse('$rawColor', radix: 16);
   }
 
   /// 指定日時が含まれる週の月曜 00:00 を返す。

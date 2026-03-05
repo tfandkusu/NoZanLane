@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:no_zan_lane/data/local/database/no_zan_lane_database.dart';
 import 'package:no_zan_lane/data/local/seed/local_data_seed.dart';
+import 'package:no_zan_lane/data/local/service/cycle_local_data_source.dart';
 import 'package:no_zan_lane/data/local/service/local_current_time.dart';
 import 'package:no_zan_lane/data/local/service/status_local_data_source.dart';
 
@@ -12,6 +13,7 @@ void main() {
   group('LocalDataSeed', () {
     late ProviderContainer container;
     late LocalDataSeed seed;
+    late CycleLocalDataSource cycleLocalDataSource;
     late StatusLocalDataSource statusLocalDataSource;
 
     setUp(() async {
@@ -31,6 +33,9 @@ void main() {
       );
 
       seed = container.read(localDataSeedProvider);
+      cycleLocalDataSource = await container.read(
+        cycleLocalDataSourceProvider.future,
+      );
       statusLocalDataSource = await container.read(
         statusLocalDataSourceProvider.future,
       );
@@ -40,12 +45,19 @@ void main() {
       container.dispose();
     });
 
-    test('seed.yaml の statuses を初期投入できる', () async {
+    test('サイクルとステータスを初期投入できる', () async {
       final yamlText = File('assets/seed.yaml').readAsStringSync();
 
-      await seed.seedStatuses(statusLocalDataSource, yamlText: yamlText);
-      final statuses = await statusLocalDataSource.list();
+      await seed.seedInitialData(
+        cycleLocalDataSource: cycleLocalDataSource,
+        statusLocalDataSource: statusLocalDataSource,
+        yamlText: yamlText,
+      );
 
+      final cycles = await cycleLocalDataSource.list();
+      expect(cycles, hasLength(3));
+
+      final statuses = await statusLocalDataSource.list();
       expect(statuses, hasLength(4));
       expect(statuses.map((e) => e.id), [1, 2, 3, 4]);
       expect(statuses.map((e) => e.label), [
@@ -55,10 +67,10 @@ void main() {
         'Done',
       ]);
       expect(statuses.map((e) => e.color), [
-        '607D8B',
-        '2196F3',
-        'FF9800',
-        '4CAF50',
+        0x607D8B,
+        0x2196F3,
+        0xFF9800,
+        0x4CAF50,
       ]);
     });
 
@@ -76,13 +88,24 @@ statuses:
     color: "222222"
 ''';
 
-      await seed.seedStatuses(statusLocalDataSource, yamlText: firstYaml);
-      await seed.seedStatuses(statusLocalDataSource, yamlText: secondYaml);
+      await seed.seedInitialData(
+        cycleLocalDataSource: cycleLocalDataSource,
+        statusLocalDataSource: statusLocalDataSource,
+        yamlText: firstYaml,
+      );
+      await seed.seedInitialData(
+        cycleLocalDataSource: cycleLocalDataSource,
+        statusLocalDataSource: statusLocalDataSource,
+        yamlText: secondYaml,
+      );
+
+      final cycles = await cycleLocalDataSource.list();
+      expect(cycles, hasLength(3));
 
       final statuses = await statusLocalDataSource.list();
       expect(statuses, hasLength(1));
       expect(statuses.single.label, 'FIRST');
-      expect(statuses.single.color, '111111');
+      expect(statuses.single.color, 0x111111);
     });
   });
 }

@@ -386,11 +386,11 @@ class $StatusTable extends Status with TableInfo<$StatusTable, StatusData> {
   );
   static const VerificationMeta _colorMeta = const VerificationMeta('color');
   @override
-  late final GeneratedColumn<String> color = GeneratedColumn<String>(
+  late final GeneratedColumn<int> color = GeneratedColumn<int>(
     'color',
     aliasedName,
     false,
-    type: DriftSqlType.string,
+    type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
   @override
@@ -444,7 +444,7 @@ class $StatusTable extends Status with TableInfo<$StatusTable, StatusData> {
         data['${effectivePrefix}label'],
       )!,
       color: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
+        DriftSqlType.int,
         data['${effectivePrefix}color'],
       )!,
     );
@@ -463,8 +463,8 @@ class StatusData extends DataClass implements Insertable<StatusData> {
   /// 表示ラベル。
   final String label;
 
-  /// 表示色（16進RGB）。
-  final String color;
+  /// 表示色（0xRRGGBB）。
+  final int color;
   const StatusData({
     required this.id,
     required this.label,
@@ -475,7 +475,7 @@ class StatusData extends DataClass implements Insertable<StatusData> {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['label'] = Variable<String>(label);
-    map['color'] = Variable<String>(color);
+    map['color'] = Variable<int>(color);
     return map;
   }
 
@@ -495,7 +495,7 @@ class StatusData extends DataClass implements Insertable<StatusData> {
     return StatusData(
       id: serializer.fromJson<int>(json['id']),
       label: serializer.fromJson<String>(json['label']),
-      color: serializer.fromJson<String>(json['color']),
+      color: serializer.fromJson<int>(json['color']),
     );
   }
   @override
@@ -504,11 +504,11 @@ class StatusData extends DataClass implements Insertable<StatusData> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'label': serializer.toJson<String>(label),
-      'color': serializer.toJson<String>(color),
+      'color': serializer.toJson<int>(color),
     };
   }
 
-  StatusData copyWith({int? id, String? label, String? color}) => StatusData(
+  StatusData copyWith({int? id, String? label, int? color}) => StatusData(
     id: id ?? this.id,
     label: label ?? this.label,
     color: color ?? this.color,
@@ -545,7 +545,7 @@ class StatusData extends DataClass implements Insertable<StatusData> {
 class StatusCompanion extends UpdateCompanion<StatusData> {
   final Value<int> id;
   final Value<String> label;
-  final Value<String> color;
+  final Value<int> color;
   const StatusCompanion({
     this.id = const Value.absent(),
     this.label = const Value.absent(),
@@ -554,13 +554,13 @@ class StatusCompanion extends UpdateCompanion<StatusData> {
   StatusCompanion.insert({
     this.id = const Value.absent(),
     required String label,
-    required String color,
+    required int color,
   }) : label = Value(label),
        color = Value(color);
   static Insertable<StatusData> custom({
     Expression<int>? id,
     Expression<String>? label,
-    Expression<String>? color,
+    Expression<int>? color,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -572,7 +572,7 @@ class StatusCompanion extends UpdateCompanion<StatusData> {
   StatusCompanion copyWith({
     Value<int>? id,
     Value<String>? label,
-    Value<String>? color,
+    Value<int>? color,
   }) {
     return StatusCompanion(
       id: id ?? this.id,
@@ -591,7 +591,7 @@ class StatusCompanion extends UpdateCompanion<StatusData> {
       map['label'] = Variable<String>(label.value);
     }
     if (color.present) {
-      map['color'] = Variable<String>(color.value);
+      map['color'] = Variable<int>(color.value);
     }
     return map;
   }
@@ -814,13 +814,13 @@ typedef $$StatusTableCreateCompanionBuilder =
     StatusCompanion Function({
       Value<int> id,
       required String label,
-      required String color,
+      required int color,
     });
 typedef $$StatusTableUpdateCompanionBuilder =
     StatusCompanion Function({
       Value<int> id,
       Value<String> label,
-      Value<String> color,
+      Value<int> color,
     });
 
 class $$StatusTableFilterComposer
@@ -842,7 +842,7 @@ class $$StatusTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get color => $composableBuilder(
+  ColumnFilters<int> get color => $composableBuilder(
     column: $table.color,
     builder: (column) => ColumnFilters(column),
   );
@@ -867,7 +867,7 @@ class $$StatusTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get color => $composableBuilder(
+  ColumnOrderings<int> get color => $composableBuilder(
     column: $table.color,
     builder: (column) => ColumnOrderings(column),
   );
@@ -888,7 +888,7 @@ class $$StatusTableAnnotationComposer
   GeneratedColumn<String> get label =>
       $composableBuilder(column: $table.label, builder: (column) => column);
 
-  GeneratedColumn<String> get color =>
+  GeneratedColumn<int> get color =>
       $composableBuilder(column: $table.color, builder: (column) => column);
 }
 
@@ -925,13 +925,13 @@ class $$StatusTableTableManager
               ({
                 Value<int> id = const Value.absent(),
                 Value<String> label = const Value.absent(),
-                Value<String> color = const Value.absent(),
+                Value<int> color = const Value.absent(),
               }) => StatusCompanion(id: id, label: label, color: color),
           createCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 required String label,
-                required String color,
+                required int color,
               }) => StatusCompanion.insert(id: id, label: label, color: color),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
