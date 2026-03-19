@@ -1,7 +1,19 @@
 {
   "@@locale": "en",
   "appTitle": "NoZanLane",
+  "@appTitle": {
+    "description": "App title"
+  },
   "counterPageTitle": "Counter",
+  "@counterPageTitle": {
+    "description": "Title of the counter page"
+  },
   "counterDescription": "You have pushed the button this many times:",
-  "incrementButtonTooltip": "Increment"
+  "@counterDescription": {
+    "description": "Description text for the counter"
+  },
+  "incrementButtonTooltip": "Increment",
+  "@incrementButtonTooltip": {
+    "description": "Tooltip for the button that increments the counter"
+  }
 }

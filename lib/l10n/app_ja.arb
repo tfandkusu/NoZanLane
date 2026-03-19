@@ -1,7 +1,19 @@
 {
   "@@locale": "ja",
   "appTitle": "NoZanLane",
+  "@appTitle": {
+    "description": "アプリのタイトル"
+  },
   "counterPageTitle": "カウンター",
+  "@counterPageTitle": {
+    "description": "カウンター画面のタイトル"
+  },
   "counterDescription": "ボタンを押した回数です:",
-  "incrementButtonTooltip": "増やす"
+  "@counterDescription": {
+    "description": "カウンターの説明文"
+  },
+  "incrementButtonTooltip": "増やす",
+  "@incrementButtonTooltip": {
+    "description": "カウントを増やすボタンのツールチップ"
+  }
 }
