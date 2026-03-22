@@ -16,6 +16,7 @@
   - `point` (INTEGER, NOT NULL) - 相対ポイント
   - `cycle_id` (INTEGER, NOT NULL) - cycles テーブルへの外部キー
   - `status_id` (INTEGER, NOT NULL) - statuses テーブルへの外部キー
+  - `sort_order` (INTEGER, NOT NULL) - 同じ (cycle_id, status_id) 内での並び順。1 始まり。ユニークではない
 
 ## 結合
 
@@ -28,6 +29,7 @@
 - 初期データ投入は `lib/data/local/seed/local_data_seed.dart` の
   `LocalDataSeed` が担当する。
 - seed.yaml の `issues` セクションから読み取る。
+- `sort_order` は YAML の記載順を (cycle_id, status_id) ごとの 1 始まりインデックスとして算出する。
 
 ## Provider
 
@@ -40,5 +42,9 @@
 
 - `replaceAll(List<IssueCompanion> companions)`
   - Issue を全件置き換える。
-- `list()`
-  - `id` 昇順で全件取得する。
+- `list(cycleId, statusId)`
+  - 指定したサイクル・ステータスに属する Issue を sortOrder 昇順で取得する。
+- `listAll()`
+  - 全 Issue を cycleId, statusId, sortOrder, id の昇順で取得する。テスト・検証用。
+- `hasAny()`
+  - Issue が 1 件以上存在するか。

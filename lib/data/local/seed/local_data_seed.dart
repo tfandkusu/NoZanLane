@@ -88,8 +88,7 @@ class LocalDataSeed {
     IssueLocalDataSource issueLocalDataSource, {
     String? yamlText,
   }) async {
-    final existing = await issueLocalDataSource.list();
-    if (existing.isNotEmpty) {
+    if (await issueLocalDataSource.hasAny()) {
       return;
     }
 
@@ -98,19 +97,32 @@ class LocalDataSeed {
     final yaml = loadYaml(sourceYaml) as YamlMap;
     final rawIssues = yaml['issues'] as YamlList? ?? YamlList();
 
-    final companions = rawIssues
-        .map((raw) {
-          final entry = raw as YamlMap;
-          return IssueCompanion.insert(
-            id: Value(entry['id'] as int),
-            title: entry['title'] as String,
-            body: (entry['body'] as String).trim(),
-            point: entry['point'] as int,
-            cycleId: entry['cycle_id'] as int,
-            statusId: entry['status_id'] as int,
-          );
-        })
-        .toList(growable: false);
+    final groupCounters = <int, Map<int, int>>{};
+    final companions = <IssueCompanion>[];
+    for (final raw in rawIssues) {
+      final entry = raw as YamlMap;
+      final cycleId = entry['cycle_id'] as int;
+      final statusId = entry['status_id'] as int;
+
+      final statusCounters = groupCounters.putIfAbsent(
+        cycleId,
+        () => <int, int>{},
+      );
+      statusCounters[statusId] = (statusCounters[statusId] ?? 0) + 1;
+      final sortOrder = statusCounters[statusId]!;
+
+      companions.add(
+        IssueCompanion.insert(
+          id: Value(entry['id'] as int),
+          title: entry['title'] as String,
+          body: (entry['body'] as String).trim(),
+          point: entry['point'] as int,
+          cycleId: cycleId,
+          statusId: statusId,
+          sortOrder: sortOrder,
+        ),
+      );
+    }
 
     if (companions.isNotEmpty) {
       await issueLocalDataSource.replaceAll(companions);

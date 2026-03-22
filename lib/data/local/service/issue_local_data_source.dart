@@ -21,13 +21,46 @@ class IssueLocalDataSource {
     });
   }
 
-  /// Issue を ID の昇順で全件返す。
-  Future<List<IssueData>> list() async {
-    final records = await (_database.select(
-      _database.issue,
-    )..orderBy([(table) => OrderingTerm.asc(table.id)])).get();
+  /// 指定したサイクル・ステータスに属する Issue を sortOrder 昇順で返す。
+  Future<List<IssueData>> list({
+    required int cycleId,
+    required int statusId,
+  }) async {
+    final query = _database.select(_database.issue)
+      ..where(
+        (t) => t.cycleId.equals(cycleId) & t.statusId.equals(statusId),
+      )
+      ..orderBy([
+        (t) => OrderingTerm.asc(t.sortOrder),
+        (t) => OrderingTerm.asc(t.id),
+      ]);
+
+    final records = await query.get();
+    return records.toList(growable: false);
+  }
+
+  /// 全 Issue を cycleId, statusId, sortOrder, id の昇順で返す。
+  /// テスト・検証用。
+  Future<List<IssueData>> listAll() async {
+    final records =
+        await (_database.select(_database.issue)..orderBy([
+              (t) => OrderingTerm.asc(t.cycleId),
+              (t) => OrderingTerm.asc(t.statusId),
+              (t) => OrderingTerm.asc(t.sortOrder),
+              (t) => OrderingTerm.asc(t.id),
+            ]))
+            .get();
 
     return records.toList(growable: false);
+  }
+
+  /// Issue が 1 件以上存在するか。
+  ///
+  /// [list] が cycleId, statusId で絞り込むため、
+  /// LocalDataSeed のシードスキップ判定で「テーブルが空か」を確認するために用いる。
+  Future<bool> hasAny() async {
+    final rows = await (_database.select(_database.issue)..limit(1)).get();
+    return rows.isNotEmpty;
   }
 }
 

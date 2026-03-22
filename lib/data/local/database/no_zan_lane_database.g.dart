@@ -680,6 +680,17 @@ class $IssueTable extends Issue with TableInfo<$IssueTable, IssueData> {
       'REFERENCES statuses (id)',
     ),
   );
+  static const VerificationMeta _sortOrderMeta = const VerificationMeta(
+    'sortOrder',
+  );
+  @override
+  late final GeneratedColumn<int> sortOrder = GeneratedColumn<int>(
+    'sort_order',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -688,6 +699,7 @@ class $IssueTable extends Issue with TableInfo<$IssueTable, IssueData> {
     point,
     cycleId,
     statusId,
+    sortOrder,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -744,6 +756,14 @@ class $IssueTable extends Issue with TableInfo<$IssueTable, IssueData> {
     } else if (isInserting) {
       context.missing(_statusIdMeta);
     }
+    if (data.containsKey('sort_order')) {
+      context.handle(
+        _sortOrderMeta,
+        sortOrder.isAcceptableOrUnknown(data['sort_order']!, _sortOrderMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_sortOrderMeta);
+    }
     return context;
   }
 
@@ -777,6 +797,10 @@ class $IssueTable extends Issue with TableInfo<$IssueTable, IssueData> {
         DriftSqlType.int,
         data['${effectivePrefix}status_id'],
       )!,
+      sortOrder: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}sort_order'],
+      )!,
     );
   }
 
@@ -804,6 +828,9 @@ class IssueData extends DataClass implements Insertable<IssueData> {
 
   /// ステータスID（statuses テーブルへの参照）。
   final int statusId;
+
+  /// 並び順（同じ cycleId, statusId 内での表示順。1 始まり。ユニークではない）。
+  final int sortOrder;
   const IssueData({
     required this.id,
     required this.title,
@@ -811,6 +838,7 @@ class IssueData extends DataClass implements Insertable<IssueData> {
     required this.point,
     required this.cycleId,
     required this.statusId,
+    required this.sortOrder,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -821,6 +849,7 @@ class IssueData extends DataClass implements Insertable<IssueData> {
     map['point'] = Variable<int>(point);
     map['cycle_id'] = Variable<int>(cycleId);
     map['status_id'] = Variable<int>(statusId);
+    map['sort_order'] = Variable<int>(sortOrder);
     return map;
   }
 
@@ -832,6 +861,7 @@ class IssueData extends DataClass implements Insertable<IssueData> {
       point: Value(point),
       cycleId: Value(cycleId),
       statusId: Value(statusId),
+      sortOrder: Value(sortOrder),
     );
   }
 
@@ -847,6 +877,7 @@ class IssueData extends DataClass implements Insertable<IssueData> {
       point: serializer.fromJson<int>(json['point']),
       cycleId: serializer.fromJson<int>(json['cycleId']),
       statusId: serializer.fromJson<int>(json['statusId']),
+      sortOrder: serializer.fromJson<int>(json['sortOrder']),
     );
   }
   @override
@@ -859,6 +890,7 @@ class IssueData extends DataClass implements Insertable<IssueData> {
       'point': serializer.toJson<int>(point),
       'cycleId': serializer.toJson<int>(cycleId),
       'statusId': serializer.toJson<int>(statusId),
+      'sortOrder': serializer.toJson<int>(sortOrder),
     };
   }
 
@@ -869,6 +901,7 @@ class IssueData extends DataClass implements Insertable<IssueData> {
     int? point,
     int? cycleId,
     int? statusId,
+    int? sortOrder,
   }) => IssueData(
     id: id ?? this.id,
     title: title ?? this.title,
@@ -876,6 +909,7 @@ class IssueData extends DataClass implements Insertable<IssueData> {
     point: point ?? this.point,
     cycleId: cycleId ?? this.cycleId,
     statusId: statusId ?? this.statusId,
+    sortOrder: sortOrder ?? this.sortOrder,
   );
   IssueData copyWithCompanion(IssueCompanion data) {
     return IssueData(
@@ -885,6 +919,7 @@ class IssueData extends DataClass implements Insertable<IssueData> {
       point: data.point.present ? data.point.value : this.point,
       cycleId: data.cycleId.present ? data.cycleId.value : this.cycleId,
       statusId: data.statusId.present ? data.statusId.value : this.statusId,
+      sortOrder: data.sortOrder.present ? data.sortOrder.value : this.sortOrder,
     );
   }
 
@@ -896,13 +931,15 @@ class IssueData extends DataClass implements Insertable<IssueData> {
           ..write('body: $body, ')
           ..write('point: $point, ')
           ..write('cycleId: $cycleId, ')
-          ..write('statusId: $statusId')
+          ..write('statusId: $statusId, ')
+          ..write('sortOrder: $sortOrder')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, title, body, point, cycleId, statusId);
+  int get hashCode =>
+      Object.hash(id, title, body, point, cycleId, statusId, sortOrder);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -912,7 +949,8 @@ class IssueData extends DataClass implements Insertable<IssueData> {
           other.body == this.body &&
           other.point == this.point &&
           other.cycleId == this.cycleId &&
-          other.statusId == this.statusId);
+          other.statusId == this.statusId &&
+          other.sortOrder == this.sortOrder);
 }
 
 class IssueCompanion extends UpdateCompanion<IssueData> {
@@ -922,6 +960,7 @@ class IssueCompanion extends UpdateCompanion<IssueData> {
   final Value<int> point;
   final Value<int> cycleId;
   final Value<int> statusId;
+  final Value<int> sortOrder;
   const IssueCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
@@ -929,6 +968,7 @@ class IssueCompanion extends UpdateCompanion<IssueData> {
     this.point = const Value.absent(),
     this.cycleId = const Value.absent(),
     this.statusId = const Value.absent(),
+    this.sortOrder = const Value.absent(),
   });
   IssueCompanion.insert({
     this.id = const Value.absent(),
@@ -937,11 +977,13 @@ class IssueCompanion extends UpdateCompanion<IssueData> {
     required int point,
     required int cycleId,
     required int statusId,
+    required int sortOrder,
   }) : title = Value(title),
        body = Value(body),
        point = Value(point),
        cycleId = Value(cycleId),
-       statusId = Value(statusId);
+       statusId = Value(statusId),
+       sortOrder = Value(sortOrder);
   static Insertable<IssueData> custom({
     Expression<int>? id,
     Expression<String>? title,
@@ -949,6 +991,7 @@ class IssueCompanion extends UpdateCompanion<IssueData> {
     Expression<int>? point,
     Expression<int>? cycleId,
     Expression<int>? statusId,
+    Expression<int>? sortOrder,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -957,6 +1000,7 @@ class IssueCompanion extends UpdateCompanion<IssueData> {
       if (point != null) 'point': point,
       if (cycleId != null) 'cycle_id': cycleId,
       if (statusId != null) 'status_id': statusId,
+      if (sortOrder != null) 'sort_order': sortOrder,
     });
   }
 
@@ -967,6 +1011,7 @@ class IssueCompanion extends UpdateCompanion<IssueData> {
     Value<int>? point,
     Value<int>? cycleId,
     Value<int>? statusId,
+    Value<int>? sortOrder,
   }) {
     return IssueCompanion(
       id: id ?? this.id,
@@ -975,6 +1020,7 @@ class IssueCompanion extends UpdateCompanion<IssueData> {
       point: point ?? this.point,
       cycleId: cycleId ?? this.cycleId,
       statusId: statusId ?? this.statusId,
+      sortOrder: sortOrder ?? this.sortOrder,
     );
   }
 
@@ -999,6 +1045,9 @@ class IssueCompanion extends UpdateCompanion<IssueData> {
     if (statusId.present) {
       map['status_id'] = Variable<int>(statusId.value);
     }
+    if (sortOrder.present) {
+      map['sort_order'] = Variable<int>(sortOrder.value);
+    }
     return map;
   }
 
@@ -1010,7 +1059,8 @@ class IssueCompanion extends UpdateCompanion<IssueData> {
           ..write('body: $body, ')
           ..write('point: $point, ')
           ..write('cycleId: $cycleId, ')
-          ..write('statusId: $statusId')
+          ..write('statusId: $statusId, ')
+          ..write('sortOrder: $sortOrder')
           ..write(')'))
         .toString();
   }
@@ -1573,6 +1623,7 @@ typedef $$IssueTableCreateCompanionBuilder =
       required int point,
       required int cycleId,
       required int statusId,
+      required int sortOrder,
     });
 typedef $$IssueTableUpdateCompanionBuilder =
     IssueCompanion Function({
@@ -1582,6 +1633,7 @@ typedef $$IssueTableUpdateCompanionBuilder =
       Value<int> point,
       Value<int> cycleId,
       Value<int> statusId,
+      Value<int> sortOrder,
     });
 
 final class $$IssueTableReferences
@@ -1649,6 +1701,11 @@ class $$IssueTableFilterComposer
 
   ColumnFilters<int> get point => $composableBuilder(
     column: $table.point,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get sortOrder => $composableBuilder(
+    column: $table.sortOrder,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -1728,6 +1785,11 @@ class $$IssueTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<int> get sortOrder => $composableBuilder(
+    column: $table.sortOrder,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$CycleTableOrderingComposer get cycleId {
     final $$CycleTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -1795,6 +1857,9 @@ class $$IssueTableAnnotationComposer
 
   GeneratedColumn<int> get point =>
       $composableBuilder(column: $table.point, builder: (column) => column);
+
+  GeneratedColumn<int> get sortOrder =>
+      $composableBuilder(column: $table.sortOrder, builder: (column) => column);
 
   $$CycleTableAnnotationComposer get cycleId {
     final $$CycleTableAnnotationComposer composer = $composerBuilder(
@@ -1877,6 +1942,7 @@ class $$IssueTableTableManager
                 Value<int> point = const Value.absent(),
                 Value<int> cycleId = const Value.absent(),
                 Value<int> statusId = const Value.absent(),
+                Value<int> sortOrder = const Value.absent(),
               }) => IssueCompanion(
                 id: id,
                 title: title,
@@ -1884,6 +1950,7 @@ class $$IssueTableTableManager
                 point: point,
                 cycleId: cycleId,
                 statusId: statusId,
+                sortOrder: sortOrder,
               ),
           createCompanionCallback:
               ({
@@ -1893,6 +1960,7 @@ class $$IssueTableTableManager
                 required int point,
                 required int cycleId,
                 required int statusId,
+                required int sortOrder,
               }) => IssueCompanion.insert(
                 id: id,
                 title: title,
@@ -1900,6 +1968,7 @@ class $$IssueTableTableManager
                 point: point,
                 cycleId: cycleId,
                 statusId: statusId,
+                sortOrder: sortOrder,
               ),
           withReferenceMapper: (p0) => p0
               .map(

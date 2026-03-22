@@ -26,4 +26,7 @@ class Issue extends Table {
 
   /// ステータスID（statuses テーブルへの参照）。
   IntColumn get statusId => integer().references(Status, #id)();
+
+  /// 並び順（同じ cycleId, statusId 内での表示順。1 始まり。）。
+  IntColumn get sortOrder => integer()();
 }

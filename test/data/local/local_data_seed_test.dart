@@ -79,9 +79,10 @@ void main() {
         0x4CAF50,
       ]);
 
-      final issues = await issueLocalDataSource.list();
+      final issues = await issueLocalDataSource.listAll();
       expect(issues, hasLength(7));
       expect(issues.first.title, 'CI が intermittent に失敗する');
+      expect(issues.first.sortOrder, 1);
     });
 
     test('既にデータがある場合は再投入しない', () async {

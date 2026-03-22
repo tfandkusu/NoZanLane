@@ -30,7 +30,7 @@ void main() {
       container.dispose();
     });
 
-    test('ID 昇順で取得できる', () async {
+    test('cycleId, statusId で絞り込み sortOrder 昇順で取得できる', () async {
       await dataSource.replaceAll([
         IssueCompanion.insert(
           id: const Value(2),
@@ -39,6 +39,7 @@ void main() {
           point: 2,
           cycleId: 1,
           statusId: 1,
+          sortOrder: 2,
         ),
         IssueCompanion.insert(
           id: const Value(1),
@@ -47,12 +48,14 @@ void main() {
           point: 1,
           cycleId: 1,
           statusId: 1,
+          sortOrder: 1,
         ),
       ]);
-      final issues = await dataSource.list();
+      final issues = await dataSource.list(cycleId: 1, statusId: 1);
 
       expect(issues.map((e) => e.id), [1, 2]);
       expect(issues.map((e) => e.title), ['First', 'Second']);
+      expect(issues.map((e) => e.sortOrder), [1, 2]);
     });
   });
 }
