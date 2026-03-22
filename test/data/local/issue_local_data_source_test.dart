@@ -2,6 +2,8 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:no_zan_lane/data/id/cycle_id.dart';
+import 'package:no_zan_lane/data/id/status_id.dart';
 import 'package:no_zan_lane/data/local/database/no_zan_lane_database.dart';
 import 'package:no_zan_lane/data/local/service/issue_local_data_source.dart';
 
@@ -51,7 +53,10 @@ void main() {
           sortOrder: 1,
         ),
       ]);
-      final issues = await dataSource.list(cycleId: 1, statusId: 1);
+      final issues = await dataSource.list(
+        cycle: const CycleId(id: 1),
+        status: const StatusId(id: 1),
+      );
 
       expect(issues.map((e) => e.id), [1, 2]);
       expect(issues.map((e) => e.title), ['First', 'Second']);

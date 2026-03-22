@@ -829,7 +829,7 @@ class IssueData extends DataClass implements Insertable<IssueData> {
   /// ステータスID（statuses テーブルへの参照）。
   final int statusId;
 
-  /// 並び順（同じ cycleId, statusId 内での表示順。1 始まり。ユニークではない）。
+  /// 並び順（同じ cycleId, statusId 内での表示順。1 始まり。）。
   final int sortOrder;
   const IssueData({
     required this.id,
