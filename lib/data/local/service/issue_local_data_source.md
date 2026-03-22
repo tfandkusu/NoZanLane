@@ -42,7 +42,7 @@
 
 - `replaceAll(List<IssueCompanion> companions)`
   - Issue を全件置き換える。
-- `list(cycleId, statusId)`
+- `list(cycleId: CycleId, statusId: StatusId)`
   - 指定したサイクル・ステータスに属する Issue を sortOrder 昇順で取得する。
 - `listAll()`
   - 全 Issue を cycleId, statusId, sortOrder, id の昇順で取得する。テスト・検証用。

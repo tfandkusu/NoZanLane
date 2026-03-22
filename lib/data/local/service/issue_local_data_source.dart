@@ -1,4 +1,6 @@
 import 'package:drift/drift.dart';
+import 'package:no_zan_lane/data/id/cycle_id.dart';
+import 'package:no_zan_lane/data/id/status_id.dart';
 import 'package:no_zan_lane/data/local/database/no_zan_lane_database.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -23,12 +25,12 @@ class IssueLocalDataSource {
 
   /// 指定したサイクル・ステータスに属する Issue を sortOrder 昇順で返す。
   Future<List<IssueData>> list({
-    required int cycleId,
-    required int statusId,
+    required CycleId cycleId,
+    required StatusId statusId,
   }) async {
     final query = _database.select(_database.issue)
       ..where(
-        (t) => t.cycleId.equals(cycleId) & t.statusId.equals(statusId),
+        (t) => t.cycleId.equals(cycleId.id) & t.statusId.equals(statusId.id),
       )
       ..orderBy([
         (t) => OrderingTerm.asc(t.sortOrder),
