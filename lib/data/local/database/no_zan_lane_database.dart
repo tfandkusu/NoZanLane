@@ -23,15 +23,6 @@ class NoZanLaneDatabase extends _$NoZanLaneDatabase {
     onCreate: (m) async {
       await m.createAll();
     },
-    onUpgrade: (m, from, to) async {
-      if (from < 2) {
-        await m.createTable(status);
-      }
-      if (from == 2) {
-        await m.deleteTable('statuses');
-        await m.createTable(status);
-      }
-    },
   );
 }
 
