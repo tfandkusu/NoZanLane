@@ -27,7 +27,7 @@
   - `fvm dart format lib test`
   - `fvm flutter analyze`
   - `fvm flutter test`
-- CI は PR ごとに `format` と `analyze` を実行。
+- CI は PR ごとに `format`、`analyze`、`test` を実行。
 
 ## コーディング規約と命名
 

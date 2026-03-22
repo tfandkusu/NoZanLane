@@ -33,3 +33,6 @@ jobs:
 
       - name: Analyze
         run: dart analyze --fatal-warnings
+
+      - name: Test
+        run: flutter test
