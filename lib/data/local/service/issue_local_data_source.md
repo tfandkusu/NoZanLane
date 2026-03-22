@@ -23,12 +23,6 @@
 - ステータスは Status クラスのテーブルを参照する
 - ステータスは seed.yaml から読み取る
 
-## マイグレーション
-
-- Drift の `MigrationStrategy` を使用する。
-- `onCreate` で `m.createAll()` を実行してテーブル作成する。
-- `onUpgrade` で schemaVersion 3 から 4 への昇格時に issues テーブルを作成する。
-
 ## Seed
 
 - 初期データ投入は `lib/data/local/seed/local_data_seed.dart` の
