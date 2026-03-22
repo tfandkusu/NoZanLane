@@ -1,6 +1,11 @@
+import 'package:drift/drift.dart';
+import 'package:flutter/services.dart';
+import 'package:no_zan_lane/data/local/database/no_zan_lane_database.dart';
 import 'package:no_zan_lane/data/local/service/cycle_local_data_source.dart';
 import 'package:no_zan_lane/data/local/service/local_current_time.dart';
+import 'package:no_zan_lane/data/local/service/status_local_data_source.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:yaml/yaml.dart';
 
 part 'local_data_seed.g.dart';
 
@@ -17,13 +22,17 @@ class LocalDataSeed {
   final LocalCurrentTime _currentTime;
 
   /// 初期データを投入する。
-  ///
-  /// すでに1件以上存在する場合は投入せず終了する。
-  /// データが空の場合のみ、現在週を基準に
-  /// 「先週・今週・来週」の3サイクルを生成する。
-  Future<void> seedInitialData(
-    CycleLocalDataSource cycleLocalDataSource,
-  ) async {
+  Future<void> seedInitialData({
+    required CycleLocalDataSource cycleLocalDataSource,
+    required StatusLocalDataSource statusLocalDataSource,
+    String? yamlText,
+  }) async {
+    await _seedCycles(cycleLocalDataSource);
+    await _seedStatuses(statusLocalDataSource, yamlText: yamlText);
+  }
+
+  /// サイクルの初期データを投入する。
+  Future<void> _seedCycles(CycleLocalDataSource cycleLocalDataSource) async {
     final existing = await cycleLocalDataSource.list();
     if (existing.isNotEmpty) {
       return;
@@ -40,6 +49,43 @@ class LocalDataSeed {
       final end = start.add(const Duration(days: 7));
       await cycleLocalDataSource.add(startAt: start, endAt: end);
     }
+  }
+
+  /// seed.yaml の statuses を初期投入する。
+  Future<void> _seedStatuses(
+    StatusLocalDataSource statusLocalDataSource, {
+    String? yamlText,
+  }) async {
+    final existing = await statusLocalDataSource.list();
+    if (existing.isNotEmpty) {
+      return;
+    }
+
+    final sourceYaml =
+        yamlText ?? await rootBundle.loadString('assets/seed.yaml');
+    final yaml = loadYaml(sourceYaml) as YamlMap;
+    final rawStatuses = yaml['statuses'] as YamlList;
+
+    final companions = rawStatuses
+        .map((raw) {
+          final entry = raw as YamlMap;
+          return StatusCompanion.insert(
+            id: Value(entry['id'] as int),
+            label: entry['label'] as String,
+            color: _toColorValue(entry['color']),
+          );
+        })
+        .toList(growable: false);
+
+    await statusLocalDataSource.replaceAll(companions);
+  }
+
+  /// color 値を 0xRRGGBB の整数に変換する。
+  int _toColorValue(Object? rawColor) {
+    if (rawColor is int) {
+      return rawColor;
+    }
+    return int.parse('$rawColor', radix: 16);
   }
 
   /// 指定日時が含まれる週の月曜 00:00 を返す。
