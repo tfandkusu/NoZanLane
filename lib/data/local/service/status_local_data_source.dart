@@ -13,12 +13,13 @@ class StatusLocalDataSource {
   final NoZanLaneDatabase _database;
 
   /// ステータスを全件置き換える。
+  /// 指定されたステータスデータ [`companions`] でテーブルの内容をすべて置き換えます。
   Future<void> replaceAll(List<StatusCompanion> companions) async {
     await _database.transaction(() async {
-      await _database.delete(_database.status).go();
-      await _database.batch((batch) {
-        batch.insertAll(_database.status, companions);
-      });
+      // ステータステーブルの全レコードを削除
+      await _database.status.deleteAll();
+      // companions の内容を一括で挿入
+      await _database.status.insertAll(companions.toList());
     });
   }
 
