@@ -25,12 +25,12 @@ class IssueLocalDataSource {
 
   /// 指定したサイクル・ステータスに属する Issue を sortOrder 昇順で返す。
   Future<List<IssueData>> list({
-    required CycleId cycle,
-    required StatusId status,
+    required CycleId cycleId,
+    required StatusId statusId,
   }) async {
     final query = _database.select(_database.issue)
       ..where(
-        (t) => t.cycleId.equals(cycle.id) & t.statusId.equals(status.id),
+        (t) => t.cycleId.equals(cycleId.id) & t.statusId.equals(statusId.id),
       )
       ..orderBy([
         (t) => OrderingTerm.asc(t.sortOrder),

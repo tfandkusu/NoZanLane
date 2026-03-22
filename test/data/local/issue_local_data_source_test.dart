@@ -54,8 +54,8 @@ void main() {
         ),
       ]);
       final issues = await dataSource.list(
-        cycle: const CycleId(id: 1),
-        status: const StatusId(id: 1),
+        cycleId: const CycleId(id: 1),
+        statusId: const StatusId(id: 1),
       );
 
       expect(issues.map((e) => e.id), [1, 2]);
