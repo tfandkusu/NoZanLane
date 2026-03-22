@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:no_zan_lane/data/local/database/no_zan_lane_database.dart';
 import 'package:no_zan_lane/data/local/seed/local_data_seed.dart';
 import 'package:no_zan_lane/data/local/service/cycle_local_data_source.dart';
+import 'package:no_zan_lane/data/local/service/issue_local_data_source.dart';
 import 'package:no_zan_lane/data/local/service/local_current_time.dart';
 import 'package:no_zan_lane/data/local/service/status_local_data_source.dart';
 
@@ -15,6 +16,7 @@ void main() {
     late LocalDataSeed seed;
     late CycleLocalDataSource cycleLocalDataSource;
     late StatusLocalDataSource statusLocalDataSource;
+    late IssueLocalDataSource issueLocalDataSource;
 
     setUp(() async {
       container = ProviderContainer(
@@ -39,6 +41,9 @@ void main() {
       statusLocalDataSource = await container.read(
         statusLocalDataSourceProvider.future,
       );
+      issueLocalDataSource = await container.read(
+        issueLocalDataSourceProvider.future,
+      );
     });
 
     tearDown(() {
@@ -51,6 +56,7 @@ void main() {
       await seed.seedInitialData(
         cycleLocalDataSource: cycleLocalDataSource,
         statusLocalDataSource: statusLocalDataSource,
+        issueLocalDataSource: issueLocalDataSource,
         yamlText: yamlText,
       );
 
@@ -72,6 +78,11 @@ void main() {
         0xFF9800,
         0x4CAF50,
       ]);
+
+      final issues = await issueLocalDataSource.listAll();
+      expect(issues, hasLength(7));
+      expect(issues.first.title, 'CI が intermittent に失敗する');
+      expect(issues.first.sortOrder, 1);
     });
 
     test('既にデータがある場合は再投入しない', () async {
@@ -91,11 +102,13 @@ statuses:
       await seed.seedInitialData(
         cycleLocalDataSource: cycleLocalDataSource,
         statusLocalDataSource: statusLocalDataSource,
+        issueLocalDataSource: issueLocalDataSource,
         yamlText: firstYaml,
       );
       await seed.seedInitialData(
         cycleLocalDataSource: cycleLocalDataSource,
         statusLocalDataSource: statusLocalDataSource,
+        issueLocalDataSource: issueLocalDataSource,
         yamlText: secondYaml,
       );
 

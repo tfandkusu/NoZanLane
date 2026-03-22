@@ -3,20 +3,21 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:no_zan_lane/data/local/entity/cycle.dart';
+import 'package:no_zan_lane/data/local/entity/issue.dart';
 import 'package:no_zan_lane/data/local/entity/status.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'no_zan_lane_database.g.dart';
 
-@DriftDatabase(tables: [Cycle, Status])
+@DriftDatabase(tables: [Cycle, Status, Issue])
 /// ローカル DB 定義。
 class NoZanLaneDatabase extends _$NoZanLaneDatabase {
   /// コンストラクタ。
   NoZanLaneDatabase({required QueryExecutor executor}) : super(executor);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
