@@ -24,11 +24,6 @@ class NoZanLaneDatabase extends _$NoZanLaneDatabase {
     onCreate: (m) async {
       await m.createAll();
     },
-    onUpgrade: (m, from, to) async {
-      if (from < 4) {
-        await m.createTable(issue);
-      }
-    },
   );
 }
 
