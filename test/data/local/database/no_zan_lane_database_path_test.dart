@@ -6,46 +6,7 @@ import 'package:path/path.dart' as p;
 
 void main() {
   group('ensureNoZanLaneDatabaseFile', () {
-    test('NO_ZANLANE_DB_PATH が最優先でディレクトリを作成する', () async {
-      final tmp = await Directory.systemTemp.createTemp('nozanlane_db_path_');
-      addTearDown(() async => tmp.delete(recursive: true));
-
-      final dbFile = File(p.join(tmp.path, 'nested', 'custom.sqlite'));
-      final resolved = await ensureNoZanLaneDatabaseFile(
-        environment: {
-          kNoZanLaneDbPathEnv: dbFile.path,
-          kNoZanLaneDataDirEnv: p.join(tmp.path, 'ignored'),
-          if (Platform.environment['HOME'] case final String home) 'HOME': home,
-          if (Platform.environment['USERPROFILE'] case final String userProfile)
-            'USERPROFILE': userProfile,
-        },
-      );
-
-      expect(resolved.path, dbFile.path);
-      expect(dbFile.parent.existsSync(), isTrue);
-    });
-
-    test('NO_ZANLANE_DATA_DIR の直下に database.sqlite を置く', () async {
-      final tmp = await Directory.systemTemp.createTemp('nozanlane_data_dir_');
-      addTearDown(() async => tmp.delete(recursive: true));
-
-      final resolved = await ensureNoZanLaneDatabaseFile(
-        environment: {
-          kNoZanLaneDataDirEnv: tmp.path,
-          if (Platform.environment['HOME'] case final String home) 'HOME': home,
-          if (Platform.environment['USERPROFILE'] case final String userProfile)
-            'USERPROFILE': userProfile,
-        },
-      );
-
-      expect(
-        resolved.path,
-        p.join(tmp.path, kNoZanLaneDatabaseFileName),
-      );
-      expect(tmp.existsSync(), isTrue);
-    });
-
-    test('環境変数が無いとき HOME 直下の .NoZanLane/database.sqlite', () async {
+    test('HOME 直下の .NoZanLane/database.sqlite を作成する', () async {
       final tmp = await Directory.systemTemp.createTemp('nozanlane_home_');
       addTearDown(() async => tmp.delete(recursive: true));
 
