@@ -3,5 +3,7 @@
   "appTitle": "NoZanLane",
   "counterPageTitle": "カウンター",
   "counterDescription": "ボタンを押した回数です:",
-  "incrementButtonTooltip": "増やす"
+  "incrementButtonTooltip": "増やす",
+  "memberProfileLoadError": "読み込みに失敗しました",
+  "memberProfileRetry": "再試行"
 }

@@ -121,6 +121,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Increment'**
   String get incrementButtonTooltip;
+
+  /// No description provided for @memberProfileLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load profile'**
+  String get memberProfileLoadError;
+
+  /// No description provided for @memberProfileRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get memberProfileRetry;
 }
 
 class _AppLocalizationsDelegate
