@@ -20,4 +20,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get incrementButtonTooltip => 'Increment';
+
+  @override
+  String get memberProfileLoadError => 'Failed to load profile';
+
+  @override
+  String get memberProfileRetry => 'Retry';
 }

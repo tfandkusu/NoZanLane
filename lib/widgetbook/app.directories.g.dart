@@ -109,6 +109,18 @@ final directories = <_widgetbook.WidgetbookNode>[
                     _no_zan_lane_widgetbook_frame_member_profile_member_profile_frame_use_case
                         .memberProfileFrameUseCase,
               ),
+              _widgetbook.WidgetbookUseCase(
+                name: 'Error',
+                builder:
+                    _no_zan_lane_widgetbook_frame_member_profile_member_profile_frame_use_case
+                        .memberProfileFrameErrorUseCase,
+              ),
+              _widgetbook.WidgetbookUseCase(
+                name: 'Loading',
+                builder:
+                    _no_zan_lane_widgetbook_frame_member_profile_member_profile_frame_use_case
+                        .memberProfileFrameLoadingUseCase,
+              ),
             ],
           ),
         ],

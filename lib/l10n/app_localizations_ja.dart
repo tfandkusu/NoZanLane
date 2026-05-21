@@ -19,4 +19,10 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get incrementButtonTooltip => '増やす';
+
+  @override
+  String get memberProfileLoadError => '読み込みに失敗しました';
+
+  @override
+  String get memberProfileRetry => '再試行';
 }

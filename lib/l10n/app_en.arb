@@ -3,5 +3,7 @@
   "appTitle": "NoZanLane",
   "counterPageTitle": "Counter",
   "counterDescription": "You have pushed the button this many times:",
-  "incrementButtonTooltip": "Increment"
+  "incrementButtonTooltip": "Increment",
+  "memberProfileLoadError": "Failed to load profile",
+  "memberProfileRetry": "Retry"
 }

@@ -1,5 +1,7 @@
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:no_zan_lane/frame/member_profile/member_profile_ui_model.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'member_profile_provider.g.dart';
 
 const _introductionText = '''
 はじめまして。プロフィールをご覧いただきありがとうございます😊
@@ -21,9 +23,24 @@ const _introductionText = '''
 まずはメッセージから、ゆっくりお話できたらと思います。
 どうぞよろしくお願いします🌷''';
 
-/// MemberProfile 画面の固定状態を提供します。
-final memberProfileUiModelProvider = Provider<MemberProfileUiModel>(
-  (ref) => const MemberProfileUiModel(
+/// MemberProfile 画面の状態を非同期で提供します。
+@riverpod
+class MemberProfile extends _$MemberProfile {
+  @override
+  Future<MemberProfileUiModel> build() => _fetchMemberProfile();
+
+  /// Pull-to-refresh から呼ぶ再読み込みです。
+  Future<void> refresh() async {
+    ref.invalidateSelf();
+    await future;
+  }
+}
+
+Future<MemberProfileUiModel> _fetchMemberProfile() async {
+  // TODO(toya): API 接続時はここで HTTP リクエストを行う。
+  // 失敗時は throw すれば Riverpod が AsyncValue.error に変換する。
+  await Future<void>.delayed(const Duration(seconds: 1));
+  return const MemberProfileUiModel(
     introductionText: _introductionText,
-  ),
-);
+  );
+}
